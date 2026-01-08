@@ -165,3 +165,4 @@ scripts/.tmp.backup*/
 # WordPress migration results
 migration_results.json
 gridea_migration_results.json
+batch_migration_results.json
