@@ -2,6 +2,93 @@
 
 本文档记录项目的详细更新历史，包括已完成的功能实现和重要技术决策。
 
+## 2026-01-08: mu-plugins统一迁移到vpsserver 📦
+
+### 🎯 迁移目标
+将分散在 workshop 和 VPS 上的 mu-plugins 统一迁移到 vpsserver 仓库管理。
+
+### 📋 迁移内容
+
+#### 从VPS下载（之前无本地备份）
+| 插件 | 功能 |
+|------|------|
+| `category-header-images.php` | 分类页面头图 |
+| `exclude-paper-weekly.php` | 首页排除论文周报 |
+| `image-width-fix.php` | 图片宽度修复 |
+| `paper-downloads.php` | VIP论文下载 |
+
+#### 从workshop迁移
+| 插件 | 功能 |
+|------|------|
+| `adsense-verification.php` | AdSense验证 |
+| `custom-functions.php` | 自定义功能 |
+| `footer-policy-links.php` | 页脚链接 |
+| `mathjax-support.php` | MathJax公式 |
+| `pagination-scroll-fix.php` | 分页滚动 |
+| `security-enhancements.php` | 安全增强 |
+| `sidebar-for-posts.php` | 文章侧边栏 |
+
+#### 部署脚本迁移
+- `deploy_pagination_fix.sh` → `vpsserver/wordpress/scripts/`
+
+### 📁 新目录结构
+```
+vpsserver/wordpress/
+├── mu-plugins/           # 统一管理所有mu-plugins (新建)
+│   ├── README.md         # 插件说明文档
+│   └── *.php             # 11个mu-plugins
+└── scripts/
+    └── deploy_pagination_fix.sh  # 部署脚本 (迁移)
+```
+
+### 📝 文档更新
+- `vpsserver/wordpress/README.md` - 更新目录结构
+- `vpsserver/wordpress/mu-plugins/README.md` - 新建插件说明
+- `workshop/CLAUDE.md` - 添加mu-plugins源码位置指向
+- `workshop/scripts/tools/wordpress_migration/mu-plugins/MIGRATED.md` - 迁移通知
+
+### ✅ 迁移效果
+- 11个mu-plugins统一在vpsserver管理
+- 消除workshop和vpsserver之间的重复
+- private仓库存储服务器配置更安全
+- 所有WordPress相关配置集中一处
+
+---
+
+## 2026-01-08: 安全审计与密钥轮换 🔒
+
+### 🔴 安全事件处理
+
+#### 问题发现
+安全审计发现以下API密钥曾被硬编码在代码中并提交到public仓库git历史：
+- 阿里云DashScope API密钥 (`sk-...446b43`)
+- 月之暗面Kimi API密钥 (`sk-...OxH1D5`)
+
+#### 处理措施
+| 步骤 | 操作 | 状态 |
+|------|------|------|
+| 1 | 在阿里云DashScope控制台删除泄露密钥 | ✅ 已完成 |
+| 2 | 在月之暗面平台删除泄露密钥 | ✅ 已完成 |
+| 3 | 清理`.env`文件中的旧密钥值 | ✅ 已完成 |
+| 4 | 更新`docs/API_KEYS_REGISTRY.md`记录事件 | ✅ 已完成 |
+| 5 | 更新CHANGELOG记录处理过程 | ✅ 已完成 |
+
+#### 审计结论
+| 项目 | 风险等级 | 状态 |
+|------|----------|------|
+| git历史密钥泄露 | 已缓解 | 源平台密钥已删除 |
+| Cloudflare配置 | ✅ 安全 | 已迁移到系统级配置 |
+| `.env`文件管理 | ✅ 安全 | 已被`.gitignore`排除 |
+| gridea-blog仓库 | ✅ 安全 | 无敏感信息 |
+| vpsserver仓库 | ✅ 安全 | private + 规范配置 |
+
+#### 经验教训
+- API密钥必须只存储在`.env`文件中
+- 代码中禁止硬编码任何密钥值
+- 定期进行安全审计检查git历史
+
+---
+
 ## 2026-01-08: Cloudflare API集成与AdSense优化 🔧
 
 ### 🎯 核心成就

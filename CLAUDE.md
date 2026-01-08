@@ -37,7 +37,8 @@
 - **WP-CLI**: `sudo -u www-data wp --path=/var/www/arong.eu.org/public_html`
 - **🔐 管理员登录**: `https://www.arong.eu.org/youxin-admin` (原/wp-admin已禁用，防机器人)
 - **mu-plugins目录**: `/var/www/arong.eu.org/public_html/wp-content/mu-plugins/`
-- **已部署mu-plugins**:
+- **mu-plugins源码管理**: `vpsserver/wordpress/mu-plugins/` (2026-01-08迁移统一管理)
+- **已部署mu-plugins** (共11个):
   - `adsense-verification.php` - Google AdSense验证代码
   - `footer-policy-links.php` - 页脚隐私政策链接
   - `pagination-scroll-fix.php` - 分页滚动修复
