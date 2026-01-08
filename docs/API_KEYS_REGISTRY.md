@@ -98,6 +98,12 @@
 
 ## Cloudflare API
 
+> **配置已迁移**: Cloudflare凭据已从项目.env迁移到系统级配置文件，遵循安全最佳实践。
+> - 配置文件: `~/.cloudflare/config`
+> - 凭据文件: `~/.cloudflare/credentials` (权限600)
+> - 管理脚本: `vpsserver/scripts/cloudflare_utils.py`
+> - 详细文档: `vpsserver/configs/cloudflare/README.md`
+
 ### Zone信息 (arong.eu.org)
 - **Zone ID**: `aa0569a8a17cfbaa12afef0a0f506fe6`
 - **Account ID**: `cab1dfae5db828524adfedab7b2d28b3`
@@ -130,7 +136,7 @@
   - Zone → Transform Rules → Edit
 - **Zone资源**: Specific zone → arong.eu.org
 - **用途**: AdSense规则配置、WAF管理、页面规则
-- **配置位置**: `.env` 文件中的 `CLOUDFLARE_RULES_TOKEN`
+- **配置位置**: `~/.cloudflare/credentials` (系统级)
 - **状态**: ✅ 已创建并验证
 
 ### Cloudflare 配置变更记录

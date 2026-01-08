@@ -65,6 +65,25 @@
 - `docs/API_KEYS_REGISTRY.md`: Cloudflare完整配置记录
 - `docs/CHANGELOG_DETAILED.md`: 本次更新记录
 
+### 🔄 配置迁移 (最佳实践优化)
+将Cloudflare配置从项目.env迁移到系统级配置：
+
+| 迁移前 | 迁移后 |
+|--------|--------|
+| `workshop/.env` | `~/.cloudflare/config` (非敏感) |
+| 项目绑定 | `~/.cloudflare/credentials` (敏感，权限600) |
+
+**新增文件**:
+- `~/.cloudflare/config` - Zone/Account配置
+- `~/.cloudflare/credentials` - API Token
+- `vpsserver/configs/cloudflare/README.md` - 详细文档
+- `vpsserver/scripts/cloudflare_utils.py` - 管理脚本
+
+**优点**:
+1. 敏感凭据不与项目绑定
+2. 多项目可共享同一配置
+3. 符合安全最佳实践
+
 ---
 
 ## 2026-01-01: 社群体系搭建完成 🎉

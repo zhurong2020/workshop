@@ -57,15 +57,16 @@
 - **微信验证文件**: `007baaf0c958cc01acabdcbef3e017ea.txt` (2025-12-31部署，用于恢复微信内访问)
 
 ### Cloudflare配置 (arong.eu.org)
+- **配置位置**: 系统级配置 `~/.cloudflare/` (已从项目.env迁移)
+- **管理脚本**: `vpsserver/scripts/cloudflare_utils.py`
+- **详细文档**: `vpsserver/configs/cloudflare/README.md`
 - **Zone ID**: `aa0569a8a17cfbaa12afef0a0f506fe6`
 - **Account ID**: `cab1dfae5db828524adfedab7b2d28b3`
-- **API Token**: Zone Rules Manager (存储在 `.env` 的 `CLOUDFLARE_RULES_TOKEN`)
 - **WAF规则**: 已配置允许Google爬虫规则 (规则ID: 956d5d15...)
 - **已优化设置** (2026-01-08):
   - Browser Check: OFF
   - Server Side Exclude: OFF
   - Email Obfuscation: OFF
-- **详细配置**: 见 `docs/API_KEYS_REGISTRY.md`
 
 ### 社群配置 (2026-01-01搭建)
 - **企业微信群**:
