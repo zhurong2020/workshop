@@ -1,6 +1,7 @@
 # mu-plugins 已迁移通知
 
 **迁移日期**: 2026-01-08
+**清理日期**: 2026-01-08
 
 ## 迁移说明
 
@@ -14,11 +15,25 @@
 2. **统一管理**: 所有 WordPress 相关配置集中在一处
 3. **避免重复**: 消除 workshop 和 vpsserver 之间的文件冗余
 
+## 清理记录
+
+以下文件已迁移并从此目录删除：
+
+| 文件 | 状态 |
+|------|------|
+| `adsense-verification.php` | ✅ 已迁移并删除 |
+| `custom-functions.php` | ✅ 已迁移并删除 |
+| `footer-policy-links.php` | ✅ 已迁移并删除 |
+| `mathjax-support.php` | ✅ 已迁移并删除 |
+| `pagination-scroll-fix.php` | ✅ 已迁移并删除 |
+| `security-enhancements.php` | ✅ 已迁移并删除 |
+| `sidebar-for-posts.php` | ✅ 已迁移并删除 |
+
 ## 当前状态
 
-此目录中的文件仅作为历史参考保留，不再维护。
+此目录仅保留本迁移通知文件，所有 mu-plugins 源码已移至 vpsserver。
 
-**请勿修改此目录中的文件** - 所有更新应在 vpsserver 仓库中进行。
+**所有更新应在 vpsserver 仓库中进行**
 
 ## 相关文档
 

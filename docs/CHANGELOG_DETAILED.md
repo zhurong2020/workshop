@@ -53,6 +53,11 @@ vpsserver/wordpress/
 - private仓库存储服务器配置更安全
 - 所有WordPress相关配置集中一处
 
+### 🧹 清理操作
+删除workshop中已迁移的冗余文件：
+- `scripts/tools/wordpress_migration/mu-plugins/*.php` (7个文件)
+- 仅保留 `MIGRATED.md` 作为迁移说明
+
 ---
 
 ## 2026-01-08: 安全审计与密钥轮换 🔒
