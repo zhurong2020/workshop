@@ -51,9 +51,21 @@
   - `paper-downloads.php` - VIP会员论文下载功能 (2025-12-31)
 - **已安装插件**: Elementor, Members (会员角色管理), WPS Hide Login (隐藏登录)
 - **会员页面**: /login/ (登录), /register/ (注册), /paper-library/ (论文资源库)
-- **AdSense状态**: 已提交审核 (pub-3677908378517538)
+- **重要页面**: /contact/ (联系我们), /privacy-policy/ (隐私政策), /terms/ (服务条款), /aboutme/ (关于我)
+- **AdSense状态**: 已提交审核 (pub-3677908378517538)，2026-01-08完成Cloudflare优化
 - **ads.txt**: 已配置在网站根目录
 - **微信验证文件**: `007baaf0c958cc01acabdcbef3e017ea.txt` (2025-12-31部署，用于恢复微信内访问)
+
+### Cloudflare配置 (arong.eu.org)
+- **Zone ID**: `aa0569a8a17cfbaa12afef0a0f506fe6`
+- **Account ID**: `cab1dfae5db828524adfedab7b2d28b3`
+- **API Token**: Zone Rules Manager (存储在 `.env` 的 `CLOUDFLARE_RULES_TOKEN`)
+- **WAF规则**: 已配置允许Google爬虫规则 (规则ID: 956d5d15...)
+- **已优化设置** (2026-01-08):
+  - Browser Check: OFF
+  - Server Side Exclude: OFF
+  - Email Obfuscation: OFF
+- **详细配置**: 见 `docs/API_KEYS_REGISTRY.md`
 
 ### 社群配置 (2026-01-01搭建)
 - **企业微信群**:
@@ -68,16 +80,16 @@
   - 频道结构: 5分类(公告/交流/资源/投资/管理)，15频道
 - **社群建设文档**: `_drafts/todos/TO_CONTENT_PROJECT/community/COMMUNITY_SETUP_2025.md`
 
-## 当前状态 (2026-01-01更新)
-- **系统状态**: 🟢 **三网合一完成** + **社群体系搭建** - 完整内容+社群生态
-- **核心成就**: **99篇文章统一管理** + **双社群运营** + **首页2x3功能区优化**
+## 当前状态 (2026-01-08更新)
+- **系统状态**: 🟢 **三网合一完成** + **社群体系搭建** + **Cloudflare API集成** - 完整内容+社群生态+自动化运维
+- **核心成就**: **99篇文章统一管理** + **双社群运营** + **AdSense审核优化**
 - **最新进展**:
+  - ✅ Cloudflare API集成：建立Token管理体系，支持自动化配置
+  - ✅ AdSense审核优化：关闭Browser Check/SSE/Email Obfuscation，创建WAF允许规则
+  - ✅ WordPress联系页面：新增 /contact/ 完善网站结构
   - ✅ 社群体系搭建完成：企业微信免费群 + Discord付费会员群
   - ✅ 三网合一迁移完成：Gridea 80篇 + Jekyll公开文章全部迁移到WordPress
-  - 首页2x3功能区域重构（云技术入门/开源应用/医学论文周报/AI智能助手/投资理财/社交互动）
-  - 创建"数字云居"和"思维火花"精华系列页面
-  - 网站社群入口完善（社交页面+关于我页面双入口）
-- **AdSense状态**: 等待Google审核中 (pub-3677908378517538)
+- **AdSense状态**: ⏳ 等待Google重新爬取 (pub-3677908378517538)，已完成Cloudflare优化
 - **服务分级**: VIP2专业解读 + VIP3翻译服务 + VIP4定制服务，明确差异化价值
 - **内容标准**: Tesla VIP2文章作为标杆，建立8,000-15,000字专业分析标准
 - **文件组织**: vip-preparation目录统一管理素材，规范化命名体系

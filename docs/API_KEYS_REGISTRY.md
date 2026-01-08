@@ -96,6 +96,85 @@
 - **续期提醒**: 建议在 2027-11-30 前更新 Client Secret
 - **详细配置**: 见 `vpsserver/docs/ONEDRIVE_CONFIG.md` (private 仓库)
 
+## Cloudflare API
+
+### Zone信息 (arong.eu.org)
+- **Zone ID**: `aa0569a8a17cfbaa12afef0a0f506fe6`
+- **Account ID**: `cab1dfae5db828524adfedab7b2d28b3`
+- **域名**: arong.eu.org (WordPress博客)
+- **用途**: CDN、安全规则、AdSense配置
+
+### API Tokens 清单 (2026-01-08 审查)
+
+| Token名称 | 权限 | 资源范围 | 状态 | 说明 |
+|-----------|------|---------|------|------|
+| Zone Rules Manager | Zone Settings/Firewall/Page Rules/Transform Rules (Edit) | arong.eu.org | ✅ 保留 | 新建，用于AdSense规则配置 |
+| Edit zone DNS | Zone.Email Routing Rules, Zone.DNS | 1 Zone | ⚠️ 待评估 | 无API调用，通过Dashboard管理 |
+| 阅读分析数据和日志 | Account.Account Analytics, Zone.Logs, Zone.Analytics | All accounts/zones | ⚠️ 待评估 | 只读，无API调用 |
+
+> **已删除**: Blog Images Upload Token (2026-01-08) - Cloudflare Images功能已停用
+
+#### Token安全审查结论
+- **Edit zone DNS**: Email Routing通过Dashboard手动管理，建议删除以减少攻击面
+- **阅读分析数据和日志**: 只读权限风险低，但无使用场景，建议删除
+- **最小权限原则**: 仅保留 Zone Rules Manager 即可满足当前需求
+
+### Zone Rules Manager Token ✅
+- **Token名称**: `Zone Rules Manager`
+- **Token后缀**: `...IfaK`
+- **创建日期**: 2026-01-08
+- **权限**:
+  - Zone → Zone Settings → Edit
+  - Zone → Firewall Services → Edit
+  - Zone → Page Rules → Edit
+  - Zone → Transform Rules → Edit
+- **Zone资源**: Specific zone → arong.eu.org
+- **用途**: AdSense规则配置、WAF管理、页面规则
+- **配置位置**: `.env` 文件中的 `CLOUDFLARE_RULES_TOKEN`
+- **状态**: ✅ 已创建并验证
+
+### Cloudflare 配置变更记录
+
+| 日期 | 设置 | 变更 | 原因 |
+|------|------|------|------|
+| 2026-01-08 | Browser Check | ON → OFF | 阻止Google AdSense爬虫读取ads.txt |
+| 2026-01-08 | Server Side Exclude | ON → OFF | 可能影响爬虫解析页面内容 |
+| 2026-01-08 | Email Obfuscation | ON → OFF | 确保爬虫可完整读取页面内容 |
+
+### Cloudflare WAF规则
+
+| 规则ID | 描述 | 动作 | 创建日期 |
+|--------|------|------|---------|
+| 956d5d15... | Allow Google Crawlers for AdSense | allow | 2026-01-08 |
+
+**规则表达式**:
+```
+(cf.client.bot) or
+(http.user_agent contains "Googlebot") or
+(http.user_agent contains "Mediapartners-Google") or
+(http.user_agent contains "AdsBot-Google") or
+(http.user_agent contains "Google-InspectionTool")
+```
+
+### Cloudflare API使用场景
+
+1. **AdSense相关**
+   - ✅ 已关闭Browser Check确保ads.txt可访问
+   - 设置Firewall规则允许Google爬虫
+   - Transform Rules处理特殊请求
+
+2. **安全规则管理**
+   - WAF自定义规则
+   - Rate Limiting配置
+   - Bot管理
+
+3. **未来扩展**
+   - 自动化DNS管理
+   - 缓存清除API调用
+   - 分析数据获取
+
+---
+
 ## 密钥安全管理
 
 ### 当前实践
@@ -111,6 +190,7 @@
 
 ## 更新历史
 
+- **2026-01-08**: 添加 Cloudflare API 配置（Zone ID、Account ID、现有Tokens记录、待创建Token说明）
 - **2025-12-30**: 添加 VPS OneDrive API (Azure) 密钥信息，记录到期日期 (2027-12-30)
 - **2025-10-11**: 创建文档，记录两个Gemini API密钥
 - **2025-10-11**: 添加Google One AI Pro订阅说明

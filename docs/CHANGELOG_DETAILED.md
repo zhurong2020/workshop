@@ -2,6 +2,71 @@
 
 本文档记录项目的详细更新历史，包括已完成的功能实现和重要技术决策。
 
+## 2026-01-08: Cloudflare API集成与AdSense优化 🔧
+
+### 🎯 核心成就
+- **Cloudflare API Token管理**: 建立完整的API密钥管理体系
+- **AdSense审核优化**: 修复阻止Google爬虫的多项设置
+- **WordPress联系页面**: 创建 /contact/ 页面完善网站结构
+- **WAF规则配置**: 创建明确允许Google爬虫的防火墙规则
+
+### 🔑 Cloudflare Token管理
+
+#### Token清理与整合
+| 操作 | Token | 说明 |
+|------|-------|------|
+| ✅ 新建 | Zone Rules Manager | 用于Rules/WAF/Settings管理 |
+| ❌ 删除 | Blog Images Upload Token | Cloudflare Images已停用 |
+| ❌ 删除 | Edit zone DNS | 无API调用需求，通过Dashboard管理 |
+| ❌ 删除 | 阅读分析数据和日志 | 无实际使用场景 |
+
+#### 配置文件更新
+- `.env`: 添加 `CLOUDFLARE_ZONE_ID`, `CLOUDFLARE_RULES_TOKEN`
+- `.env.example`: 添加完整Cloudflare配置模板
+- `docs/API_KEYS_REGISTRY.md`: 记录Token信息和变更历史
+
+### 🛡️ AdSense审核优化
+
+#### Cloudflare设置修改
+| 设置 | 修改前 | 修改后 | 原因 |
+|------|--------|--------|------|
+| Browser Check | ON | OFF | JS挑战阻止Google爬虫 |
+| Server Side Exclude | ON | OFF | 影响爬虫解析页面 |
+| Email Obfuscation | ON | OFF | 确保完整读取页面内容 |
+
+#### WAF规则创建
+- **规则ID**: `956d5d15bb184ef8aa31915e11a58285`
+- **动作**: Allow (允许)
+- **优先级**: 1 (最高)
+- **覆盖爬虫**:
+  - Googlebot (搜索引擎)
+  - Mediapartners-Google (AdSense)
+  - AdsBot-Google (广告质量检查)
+  - Google-InspectionTool (网站检查工具)
+  - cf.client.bot (Cloudflare验证的良性爬虫)
+
+### 📄 WordPress更新
+- **新增页面**: /contact/ (联系我们)
+  - 包含邮箱联系方式
+  - 社群入口链接
+  - 相关页面导航
+
+### 📊 AdSense审核状态
+| 项目 | 状态 |
+|------|------|
+| ads.txt | ✅ 正确配置 |
+| AdSense代码 | ✅ 已安装 |
+| 隐私政策 | ✅ /privacy-policy/ |
+| 联系页面 | ✅ /contact/ (新增) |
+| Google爬虫访问 | ✅ WAF规则允许 |
+| 审核状态 | ⏳ 等待Google重新爬取 |
+
+### 📝 文档更新
+- `docs/API_KEYS_REGISTRY.md`: Cloudflare完整配置记录
+- `docs/CHANGELOG_DETAILED.md`: 本次更新记录
+
+---
+
 ## 2026-01-01: 社群体系搭建完成 🎉
 
 ### 🎯 核心成就
