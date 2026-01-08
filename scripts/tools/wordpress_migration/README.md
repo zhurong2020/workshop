@@ -324,16 +324,24 @@ ssh arong-vps 'echo "google.com, pub-XXXXXXXX, DIRECT, f08c47fec0942fa0" > /var/
 
 ### Deployed mu-plugins
 
+> **Note**: mu-plugins源码已迁移到 `vpsserver/wordpress/mu-plugins/` 统一管理 (2026-01-08)
+> 详见: `vpsserver/wordpress/mu-plugins/README.md`
+
 Current mu-plugins on VPS (`/wp-content/mu-plugins/`):
 
 | File | Purpose |
 |------|---------|
 | `adsense-verification.php` | Google AdSense head code |
-| `footer-policy-links.php` | Privacy/Terms links in footer |
-| `pagination-scroll-fix.php` | Fix pagination scroll |
-| `sidebar-for-posts.php` | Sidebar for single post pages |
+| `category-header-images.php` | Category page header images |
 | `custom-functions.php` | Custom theme functions |
+| `exclude-paper-weekly.php` | Exclude paper-weekly from homepage |
+| `footer-policy-links.php` | Privacy/Terms links in footer |
+| `image-width-fix.php` | Image width responsive fix |
+| `mathjax-support.php` | MathJax formula support |
+| `pagination-scroll-fix.php` | Fix pagination scroll |
+| `paper-downloads.php` | VIP paper download feature |
 | `security-enhancements.php` | Security hardening |
+| `sidebar-for-posts.php` | Sidebar for single post pages |
 
 ## File Locations
 
@@ -342,4 +350,5 @@ Current mu-plugins on VPS (`/wp-content/mu-plugins/`):
 - Gridea Posts: `/home/wuxia/projects/zhurong2020.github.io/post/`
 - WordPress Root: `/var/www/arong.eu.org/public_html/`
 - Results: Working directory (where you run the script)
-- mu-plugins: `/var/www/arong.eu.org/public_html/wp-content/mu-plugins/`
+- mu-plugins (VPS): `/var/www/arong.eu.org/public_html/wp-content/mu-plugins/`
+- mu-plugins (源码): `vpsserver/wordpress/mu-plugins/` (private repo)

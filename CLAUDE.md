@@ -83,9 +83,11 @@
 - **社群建设文档**: `_drafts/todos/TO_CONTENT_PROJECT/community/COMMUNITY_SETUP_2025.md`
 
 ## 当前状态 (2026-01-08更新)
-- **系统状态**: 🟢 **三网合一完成** + **社群体系搭建** + **Cloudflare API集成** - 完整内容+社群生态+自动化运维
-- **核心成就**: **99篇文章统一管理** + **双社群运营** + **AdSense审核优化**
+- **系统状态**: 🟢 **三网合一完成** + **社群体系搭建** + **Cloudflare API集成** + **安全审计完成** - 完整内容+社群生态+自动化运维+安全加固
+- **核心成就**: **99篇文章统一管理** + **双社群运营** + **AdSense审核优化** + **mu-plugins统一管理**
 - **最新进展**:
+  - ✅ 安全审计完成：发现并处理git历史API密钥泄露，已轮换DashScope/Kimi密钥
+  - ✅ mu-plugins统一迁移：11个插件从VPS+workshop迁移到vpsserver统一管理
   - ✅ Cloudflare API集成：建立Token管理体系，支持自动化配置
   - ✅ AdSense审核优化：关闭Browser Check/SSE/Email Obfuscation，创建WAF允许规则
   - ✅ WordPress联系页面：新增 /contact/ 完善网站结构
