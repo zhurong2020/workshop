@@ -10,6 +10,7 @@ from abc import ABC, abstractmethod
 
 # 导入现有的平台发布器
 from ..wechat_publisher import WechatPublisher
+from ..wordpress_publisher import WordPressPublisher
 
 
 class PlatformAdapter(ABC):
@@ -25,7 +26,7 @@ class PlatformAdapter(ABC):
         pass
     
     @abstractmethod
-    def generate_content(self, content: str, _: Dict[str, Any]) -> str:
+    def generate_content(self, content: str, metadata: Dict[str, Any]) -> str:
         """为特定平台生成适配内容"""
         pass
     
@@ -99,42 +100,135 @@ class WeChatAdapter(PlatformAdapter):
             self.log(f"微信发布失败: {str(e)}", level="error", force=True)
             return False
     
-    def generate_content(self, content: str, _: Dict[str, Any]) -> str:
+    def generate_content(self, content: str, metadata: Dict[str, Any]) -> str:
         """为微信平台生成适配内容"""
         # 微信平台的内容格式化
         # 可以添加微信特有的格式优化
+        _ = metadata  # 暂时不使用
         return content
 
 
 class GitHubPagesAdapter(PlatformAdapter):
     """GitHub Pages适配器"""
-    
+
+    def __init__(self, config: Dict[str, Any], logger: Optional[logging.Logger] = None):
+        super().__init__(config, logger)
+        self.enable_excerpt_mode = config.get('excerpt_mode', False)
+        self.wordpress_domain = None
+
+    def set_wordpress_domain(self, domain: str):
+        """设置 WordPress 域名，用于引流链接"""
+        self.wordpress_domain = domain
+
     def publish(self, content: str, metadata: Dict[str, Any]) -> bool:
         """发布到GitHub Pages（Jekyll）"""
         # GitHub Pages发布逻辑
         # 这里可以实现将内容移动到_posts目录的逻辑
         _ = content, metadata  # 避免未使用参数警告
         return True
-    
-    def generate_content(self, content: str, _: Dict[str, Any]) -> str:
+
+    def generate_content(self, content: str, metadata: Dict[str, Any]) -> str:
         """为GitHub Pages生成适配内容"""
-        # Jekyll格式的内容处理
+        # 如果启用摘要模式，且有 WordPress 域名，生成引流内容
+        if self.enable_excerpt_mode and self.wordpress_domain:
+            return self._generate_excerpt_with_link(content, metadata)
         return content
+
+    def _generate_excerpt_with_link(self, content: str, metadata: Dict[str, Any]) -> str:
+        """生成摘要 + 链接到 WordPress 完整文章"""
+        # 提取摘要（前 300 字或到第一个段落结束）
+        excerpt = metadata.get('excerpt', '')
+        if not excerpt:
+            # 如果没有摘要，从内容中提取前 300 字
+            lines = content.split('\n')
+            excerpt_lines = []
+            char_count = 0
+            for line in lines:
+                if line.strip():
+                    excerpt_lines.append(line)
+                    char_count += len(line)
+                    if char_count > 300:
+                        break
+
+            excerpt = '\n'.join(excerpt_lines[:3])  # 最多取前3段
+
+        # 生成文章 slug（从标题生成）
+        title = metadata.get('title', '')
+        # 简单的 slug 生成（可以改进）
+        slug = title.lower().replace(' ', '-').replace('，', '-').replace('。', '')
+        slug = ''.join(c for c in slug if c.isalnum() or c == '-')
+
+        # 生成 WordPress 文章链接
+        # 假设 WordPress 的 permalink 结构是 /%postname%/
+        wordpress_url = f"https://{self.wordpress_domain}/{slug}/"
+
+        # 构建引流内容
+        referral_content = f"""{excerpt}
+
+<!-- more -->
+
+## 阅读完整文章
+
+本文已迁移到我的新博客平台，获得更好的阅读体验：
+
+**[👉 点击阅读完整文章]({wordpress_url})**
+
+---
+
+*新博客功能更强大，欢迎访问！*
+"""
+
+        return referral_content
 
 
 class WordPressAdapter(PlatformAdapter):
     """WordPress适配器"""
-    
+
+    def __init__(self, config: Dict[str, Any], logger: Optional[logging.Logger] = None):
+        super().__init__(config, logger)
+        self.wordpress_publisher = None
+        self._initialize_publisher()
+
+    def _initialize_publisher(self):
+        """初始化 WordPress 发布器"""
+        try:
+            self.wordpress_publisher = WordPressPublisher(self.config, self.logger)
+            self.log("WordPress 发布器初始化成功", level="info")
+        except Exception as e:
+            self.log(f"WordPress 发布器初始化失败: {str(e)}", level="error")
+            self.wordpress_publisher = None
+
     def publish(self, content: str, metadata: Dict[str, Any]) -> bool:
         """发布到WordPress"""
-        # WordPress发布逻辑（通过REST API）
-        _ = content, metadata  # 避免未使用参数警告
-        self.log("WordPress发布功能待实现", level="warning")
-        return False
-    
-    def generate_content(self, content: str, _: Dict[str, Any]) -> str:
+        if not self.wordpress_publisher:
+            self.log("WordPress 发布器未初始化，跳过发布", level="error", force=True)
+            return False
+
+        try:
+            self.log("正在发布到 WordPress...", level="info", force=True)
+
+            # 调用 WordPress 发布器
+            post_id = self.wordpress_publisher.publish_to_wordpress(
+                content=content,
+                metadata=metadata,
+                post_id=None  # 总是创建新文章
+            )
+
+            if post_id:
+                self.log(f"✅ WordPress 发布成功，文章 ID: {post_id}", level="info", force=True)
+                return True
+            else:
+                self.log("❌ WordPress 发布失败", level="error", force=True)
+                return False
+
+        except Exception as e:
+            self.log(f"WordPress 发布失败: {str(e)}", level="error", force=True)
+            return False
+
+    def generate_content(self, content: str, metadata: Dict[str, Any]) -> str:
         """为WordPress生成适配内容"""
-        # WordPress特有的格式处理
+        # WordPress 使用原始 Markdown，转换在发布器中进行
+        _ = metadata  # 暂时不使用
         return content
 
 
