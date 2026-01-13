@@ -56,6 +56,12 @@
 - **AdSense状态**: 已提交审核 (pub-3677908378517538)，2026-01-08完成Cloudflare优化
 - **ads.txt**: 已配置在网站根目录
 - **微信验证文件**: `007baaf0c958cc01acabdcbef3e017ea.txt` (2025-12-31部署，用于恢复微信内访问)
+- **多平台发布系统** (2026-01-12集成):
+  - 发布器: `scripts/core/wordpress_publisher.py` - Markdown→Gutenberg自动转换
+  - 配置文件: `config/platforms.yml` - 三平台统一配置
+  - 使用指南: `docs/WORDPRESS_PUBLISHING_GUIDE.md` - 完整发布流程文档
+  - VS Code快捷键: `Ctrl+Shift+B` - 一键启动智能发布
+  - 三平台策略: WordPress完整内容 + GitHub Pages摘要引流 + 微信发布指南
 
 ### Cloudflare配置 (arong.eu.org)
 - **配置位置**: 系统级配置 `~/.cloudflare/` (已从项目.env迁移)
@@ -82,10 +88,13 @@
   - 频道结构: 5分类(公告/交流/资源/投资/管理)，15频道
 - **社群建设文档**: `_drafts/todos/TO_CONTENT_PROJECT/community/COMMUNITY_SETUP_2025.md`
 
-## 当前状态 (2026-01-08更新)
-- **系统状态**: 🟢 **三网合一完成** + **社群体系搭建** + **Cloudflare API集成** + **安全审计完成** - 完整内容+社群生态+自动化运维+安全加固
-- **核心成就**: **99篇文章统一管理** + **双社群运营** + **AdSense审核优化** + **mu-plugins统一管理**
+## 当前状态 (2026-01-12更新)
+- **系统状态**: 🟢 **三网合一完成** + **社群体系搭建** + **WordPress多平台发布系统** + **自动化运维** - 完整内容生态+一键多平台发布
+- **核心成就**: **99篇文章统一管理** + **双社群运营** + **WordPress智能发布** + **mu-plugins统一管理**
 - **最新进展**:
+  - ✅ WordPress多平台发布系统：集成Markdown→Gutenberg自动转换，支持一键发布到WordPress+GitHub Pages+微信
+  - ✅ 平台适配器架构：实现WordPressAdapter、GitHubPagesAdapter、WeChatAdapter完整适配
+  - ✅ 智能引流系统：GitHub Pages自动生成摘要+引流链接，导流到WordPress主站
   - ✅ 安全审计完成：发现并处理git历史API密钥泄露，已轮换DashScope/Kimi密钥
   - ✅ mu-plugins统一迁移：11个插件从VPS+workshop迁移到vpsserver统一管理
   - ✅ Cloudflare API集成：建立Token管理体系，支持自动化配置
