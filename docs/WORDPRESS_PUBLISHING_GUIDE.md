@@ -88,9 +88,19 @@ mv /home/wuxia/projects/vpsserver/wordpress/content/blog-trilium-notes.md \
 
 **方式 3：终端命令**
 ```bash
+# 方式 3a: 使用快捷命令（推荐）
+workshop
+
+# 方式 3b: 使用启动脚本
 cd /home/wuxia/projects/workshop
-python run.py
+./workshop.sh
+
+# 方式 3c: 直接使用虚拟环境
+cd /home/wuxia/projects/workshop
+venv/bin/python3 run.py
 ```
+
+**注意**: 不要直接使用 `python run.py`，必须使用虚拟环境中的Python。
 
 ---
 
