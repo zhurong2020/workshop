@@ -1,0 +1,78 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "📝 有心工坊 - 智能发布",
+      "type": "shell",
+      "command": "python",
+      "args": ["${workspaceFolder}/run.py"],
+      "options": {
+        "cwd": "${workspaceFolder}"
+      },
+      "presentation": {
+        "reveal": "always",
+        "panel": "dedicated",
+        "focus": true,
+        "clear": true
+      },
+      "problemMatcher": [],
+      "group": {
+        "kind": "build",
+        "isDefault": true
+      }
+    },
+    {
+      "label": "🚀 快速发布当前草稿",
+      "type": "shell",
+      "command": "python",
+      "args": [
+        "${workspaceFolder}/run.py",
+        "--quick",
+        "${file}"
+      ],
+      "options": {
+        "cwd": "${workspaceFolder}"
+      },
+      "presentation": {
+        "reveal": "always",
+        "panel": "dedicated",
+        "focus": true,
+        "clear": true
+      },
+      "problemMatcher": []
+    },
+    {
+      "label": "📊 检查草稿质量",
+      "type": "shell",
+      "command": "python",
+      "args": [
+        "-c",
+        "from scripts.core.content_pipeline import ContentPipeline; pipeline = ContentPipeline('config/pipeline_config.yml', verbose=True); pipeline.check_draft_issues()"
+      ],
+      "options": {
+        "cwd": "${workspaceFolder}"
+      },
+      "presentation": {
+        "reveal": "always",
+        "panel": "shared"
+      },
+      "problemMatcher": []
+    },
+    {
+      "label": "🔄 处理 OneDrive 图片",
+      "type": "shell",
+      "command": "python",
+      "args": [
+        "${workspaceFolder}/scripts/tools/onedrive_image_host.py"
+      ],
+      "options": {
+        "cwd": "${workspaceFolder}"
+      },
+      "presentation": {
+        "reveal": "always",
+        "panel": "shared"
+      },
+      "problemMatcher": []
+    }
+  ]
+}

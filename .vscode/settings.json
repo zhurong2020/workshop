@@ -12,5 +12,21 @@
     "python.linting.mypyEnabled": false,
     "python.terminal.activateEnvironment": true,
     "python.analysis.importFormat": "absolute",
-    "pylance.insidersChannel": "off"
+    "pylance.insidersChannel": "off",
+
+    "terminal.integrated.cwd": "${workspaceFolder}",
+    "terminal.integrated.env.linux": {
+        "VIRTUAL_ENV": "${workspaceFolder}/venv",
+        "PATH": "${workspaceFolder}/venv/bin:${env:PATH}"
+    },
+    "terminal.integrated.defaultProfile.linux": "bash-venv",
+    "terminal.integrated.profiles.linux": {
+        "bash-venv": {
+            "path": "bash",
+            "args": ["--rcfile", "${workspaceFolder}/.vscode/venv-init.sh"]
+        },
+        "bash": {
+            "path": "bash"
+        }
+    }
 }
