@@ -2,6 +2,52 @@
 
 本文档记录项目的详细更新历史，包括已完成的功能实现和重要技术决策。
 
+## 2026-01-14: 配置文件完整整合
+
+### 🔧 配置架构重构
+
+将分散的配置文件整合为清晰的两层架构：
+
+| 层级 | 文件 | 内容 |
+|------|------|------|
+| 主配置 | `config/app.yml` | 路径、平台、分类、模板、页脚等非敏感配置 |
+| 敏感信息 | `.env` | API密钥、密码、Token、OAuth凭据 |
+
+### 📊 整合成果
+
+| 指标 | 整合前 | 整合后 | 改善 |
+|------|--------|--------|------|
+| config/ 文件数 | 21 | 14 | -33% |
+| .env 行数 | 84 | 60 | -29% |
+| 重复配置 | 4处 | 0 | -100% |
+
+### 🗑️ 删除的冗余文件
+
+- `config/platforms.yml` → 整合到 app.yml
+- `config/pipeline_config.yml` → 整合到 app.yml
+- `config/post_templates.yml` → 整合到 app.yml
+- `config/archived/` 目录 (4个废弃文件)
+
+### ✨ 新增配置加载方法
+
+`scripts/utils/config_loader.py` 新增服务配置方法：
+
+```python
+config = get_config()
+wp = config.get_wordpress_config()      # WordPress (URL从app.yml，凭据从.env)
+wechat = config.get_wechat_config()     # 微信公众号
+github = config.get_github_config()     # GitHub
+onedrive = config.get_onedrive_config() # OneDrive
+email = config.get_email_config()       # 邮件
+```
+
+### 📋 相关文档
+
+- 整合计划: `_drafts/todos/CONFIG_INTEGRATION_PLAN.md`
+- 配置说明: `config/README.md`
+
+---
+
 ## 2026-01-14: Google Gemini SDK 迁移与性能优化
 
 ### 🔄 SDK 迁移：google-generativeai → google-genai
