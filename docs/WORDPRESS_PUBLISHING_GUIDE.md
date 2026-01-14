@@ -106,27 +106,32 @@ venv/bin/python3 run.py
 
 ## 配置说明
 
-### platforms.yml 配置详解
+### app.yml 平台配置详解
 
-配置文件：`workshop/config/platforms.yml`
+配置文件：`workshop/config/app.yml`
 
 ```yaml
 platforms:
   # GitHub Pages - 摘要 + 引流
   github_pages:
     enabled: true
-    excerpt_mode: true    # 启用摘要模式（引流到 WordPress）
+    features:
+      excerpt_mode: true    # 启用摘要模式（引流到 WordPress）
 
   # 微信公众号 - 发布指南
   wechat:
     enabled: true
-    publish_mode: guide   # guide 模式（生成发布指南）
+    publish_mode: guide     # guide 模式（生成发布指南）
 
   # WordPress - 完整内容
   wordpress:
     enabled: true
-    publish_status: draft # 默认发布为草稿（可改为 publish）
+    url: "https://www.arong.eu.org"
+    api_url: "https://www.arong.eu.org/wp-json/wp/v2"
+    publish_status: draft   # 默认发布为草稿（可改为 publish）
 ```
+
+**注意**: WordPress 凭据（用户名、密码）配置在 `.env` 文件中。
 
 ### 发布模式说明
 

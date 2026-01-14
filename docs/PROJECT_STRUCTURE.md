@@ -122,15 +122,15 @@ scripts/
 
 ```
 config/
-├── pipeline_config.yml     # 主流程配置
+├── app.yml                 # 主配置（路径、平台、分类、模板）
 ├── elevenlabs_voices.yml   # ElevenLabs语音配置
-├── elevenlabs_voices_pro.yml  # Pro版语音配置
-├── youtube_categories.yml  # YouTube分类映射
-├── member_tiers.yml        # 会员等级配置
+├── youtube_podcast_config.yml  # YouTube播客配置
+├── vip_content_config.yml  # VIP内容配置
+├── inspiration_domains.yml # 领域知识库
 ├── onedrive_config.json    # OneDrive图床配置
 ├── onedrive_tokens.json    # OneDrive访问令牌 (运行时生成)
-├── image_config.json       # 图片处理配置
-└── azure_app_info.md       # Azure应用注册信息
+├── function_*.json         # 功能回归检测
+└── README.md               # 配置说明文档
 ```
 
 ### 文档系统 (`docs/`)
@@ -193,8 +193,9 @@ assets/                     # 静态资源
 - **示例**: `2025-08-07-deep-learning-investment-applications.md`
 
 ### 配置文件
-- **格式**: `[功能]_config.yml` 或 `[组件]_[类型].yml`
-- **示例**: `pipeline_config.yml`, `elevenlabs_voices.yml`
+- **主配置**: `app.yml` 整合所有核心配置
+- **功能模块**: `[功能]_config.yml` 或 `[组件]_[类型].yml`
+- **示例**: `app.yml`, `elevenlabs_voices.yml`, `vip_content_config.yml`
 
 ### 工具脚本
 - **格式**: `[功能]_[动作].py`
@@ -216,7 +217,7 @@ assets/                     # 静态资源
 | `scripts/core/validators/content_validator.py` | 内容验证器基类 | ⭐⭐⭐⭐ |
 | `scripts/cli/menu_handler.py` | 菜单处理器 | ⭐⭐⭐⭐ |
 | `scripts/core/youtube_podcast_generator.py` | YouTube播客生成核心 | ⭐⭐⭐⭐ |
-| `config/pipeline_config.yml` | 主要系统配置 | ⭐⭐⭐⭐ |
+| `config/app.yml` | 主配置文件（路径、平台、分类、模板） | ⭐⭐⭐⭐ |
 | `CLAUDE.md` | 项目开发约定和规范 | ⭐⭐⭐⭐ |
 | `.env` | 环境变量和敏感配置 | ⭐⭐⭐⭐ |
 

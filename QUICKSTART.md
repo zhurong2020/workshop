@@ -134,7 +134,7 @@ vim _drafts/my-article.md
 3. **默认发布状态**
    - WordPress 默认发布为**草稿**
    - 需要在后台审核后再发布
-   - 修改配置：`config/platforms.yml` → `publish_status: publish`
+   - 修改配置：`config/app.yml` → `platforms.wordpress.publish_status: publish`
 
 4. **数学公式支持**
    - 使用 LaTeX 语法：`$$公式$$` 或 `$公式$`
@@ -173,7 +173,7 @@ https://www.arong.eu.org/youxin-admin/
 
 - **完整使用指南**: `docs/WORDPRESS_PUBLISHING_GUIDE.md`
 - **项目文档**: `CLAUDE.md`
-- **平台配置**: `config/platforms.yml`
+- **主配置文件**: `config/app.yml`
 - **环境变量**: `.env`
 
 ## 🎉 开始创作

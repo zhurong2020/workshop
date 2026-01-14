@@ -107,8 +107,9 @@
 │   ├── test_publish_manager.py       # 发布管理器测试
 │   └── test_*.py                     # 其他模块测试
 ├── config/                      # 配置文件
-│   ├── platforms.yml
-│   ├── gemini_config.yml
+│   ├── app.yml                  # 主配置（路径、平台、分类等）
+│   ├── elevenlabs_voices.yml    # TTS语音配置
+│   ├── vip_content_config.yml   # VIP内容配置
 │   ├── onedrive_config.json
 │   └── templates/
 ├── docs/                        # 项目文档 (19个文档)

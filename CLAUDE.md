@@ -58,7 +58,8 @@
 - **微信验证文件**: `007baaf0c958cc01acabdcbef3e017ea.txt` (2025-12-31部署，用于恢复微信内访问)
 - **多平台发布系统** (2026-01-12集成):
   - 发布器: `scripts/core/wordpress_publisher.py` - Markdown→Gutenberg自动转换
-  - 配置文件: `config/platforms.yml` - 三平台统一配置
+  - 主配置: `config/app.yml` - 整合所有平台配置
+  - 敏感信息: `.env` - API密钥、密码、Token
   - 使用指南: `docs/WORDPRESS_PUBLISHING_GUIDE.md` - 完整发布流程文档
   - VS Code快捷键: `Ctrl+Shift+B` - 一键启动智能发布
   - 三平台策略: WordPress完整内容 + GitHub Pages摘要引流 + 微信发布指南
