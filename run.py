@@ -35,7 +35,7 @@ def main():
     args = parser.parse_args()
     
     # 初始化一次，避免重复日志
-    pipeline = ContentPipeline("config/pipeline_config.yml", verbose=args.verbose)
+    pipeline = ContentPipeline("config/app.yml", verbose=args.verbose)
     
     # 初始化菜单处理器和路由器
     menu_handler = MenuHandler(pipeline)
@@ -279,7 +279,7 @@ def run_shell_command(cmd, description="Command", timeout=300, check_result=True
         subprocess.CompletedProcess对象
     """
     # 临时导入，避免循环依赖
-    pipeline = ContentPipeline("config/pipeline_config.yml", verbose=False)
+    pipeline = ContentPipeline("config/app.yml", verbose=False)
     
     try:
         pipeline.log(f"执行命令: {description}", level="info", force=True)

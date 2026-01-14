@@ -36,7 +36,7 @@ class ContentPipeline:
     _instance = None  # 类属性用于单例模式
     _initialized = False  # 记录是否已初始化
     
-    def __init__(self, config_path: str = "config/pipeline_config.yml", verbose: bool = False):
+    def __init__(self, config_path: str = "config/app.yml", verbose: bool = False):
         """初始化内容处理管道
         Args:
             config_path: 配置文件路径
@@ -153,7 +153,7 @@ class ContentPipeline:
         
         try:
             # 加载主配置
-            with open(config_dir / "pipeline_config.yml", 'r', encoding='utf-8') as f:
+            with open(config_dir / "app.yml", 'r', encoding='utf-8') as f:
                 config.update(yaml.safe_load(f))
             
             # 加载导入的配置
@@ -2942,7 +2942,7 @@ class ContentPipeline:
 
 def main():
     parser = argparse.ArgumentParser()
-    parser.add_argument('--config', type=str, default='config/pipeline_config.yml', help='Path to config file')
+    parser.add_argument('--config', type=str, default='config/app.yml', help='Path to config file')
     parser.add_argument('--verbose', action='store_true', help='Enable verbose logging')
     args = parser.parse_args()
 

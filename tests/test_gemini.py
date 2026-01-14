@@ -119,7 +119,7 @@ def test_gemini_connection():
     try:
         load_dotenv()
         # 创建一个简化版的 ContentPipeline，避免完整初始化
-        pipeline = ContentPipeline("config/pipeline_config.yml")
+        pipeline = ContentPipeline("config/app.yml")
         
         # 检查 API 是否可用
         if not pipeline.api_available:
@@ -144,7 +144,7 @@ def test_gemini_connection():
 def test_content_polish(test_draft):
     """测试内容润色功能"""
     try:
-        pipeline = ContentPipeline("config/pipeline_config.yml")
+        pipeline = ContentPipeline("config/app.yml")
         
         # 检查 API 是否可用
         if not pipeline.api_available:

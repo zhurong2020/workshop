@@ -16,7 +16,7 @@ paths:
   images: "assets/images/posts"
   output: "_output"
   archive: "_drafts/archived"
-  logs: "logs"
+  logs: "logs/pipeline.log"
   data: "_data"
 
 # ==============================================================================

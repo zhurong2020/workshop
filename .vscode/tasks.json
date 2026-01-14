@@ -47,7 +47,7 @@
       "command": "python",
       "args": [
         "-c",
-        "from scripts.core.content_pipeline import ContentPipeline; pipeline = ContentPipeline('config/pipeline_config.yml', verbose=True); pipeline.check_draft_issues()"
+        "from scripts.core.content_pipeline import ContentPipeline; pipeline = ContentPipeline('config/app.yml', verbose=True); pipeline.check_draft_issues()"
       ],
       "options": {
         "cwd": "${workspaceFolder}"

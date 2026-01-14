@@ -16,7 +16,7 @@ def test_wechat_draft():
     """测试微信草稿保存功能"""
     
     # 初始化内容管道
-    pipeline = ContentPipeline("config/pipeline_config.yml", verbose=True)
+    pipeline = ContentPipeline("config/app.yml", verbose=True)
     
     # 选择已发布的文章进行重新发布测试
     post_path = Path("_posts/2025-07-14-self-talk-unconscious-magic.md")
