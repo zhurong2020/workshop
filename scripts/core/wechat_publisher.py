@@ -11,7 +11,7 @@ from pathlib import Path
 from dotenv import load_dotenv
 
 if TYPE_CHECKING:
-    from google.generativeai.generative_models import GenerativeModel
+    from .gemini_client import GenerativeModel
 
 class WeChatApiUsageTracker:
     """Tracks WeChat API usage to prevent exceeding daily limits."""

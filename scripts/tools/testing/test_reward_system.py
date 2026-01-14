@@ -56,7 +56,7 @@ def test_dependencies():
         ("frontmatter", "Frontmatter解析"),
         ("markdown2", "Markdown转换"),
         ("weasyprint", "PDF生成"),
-        ("google.generativeai", "Gemini AI")
+        ("google.genai", "Gemini AI (新版SDK)")
     ]
     
     missing_deps = []

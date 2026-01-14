@@ -21,10 +21,12 @@ load_dotenv()
 # 第三方库导入
 try:
     from gradio_client import Client
-    import google.generativeai as genai
+    # 使用新版 google-genai SDK
+    from google import genai as google_genai
+    from .gemini_client import GeminiClient
     from googleapiclient.discovery import build
 except ImportError as e:
-    print(f"请安装必要的依赖: pip install gradio-client google-generativeai google-api-python-client")
+    print(f"请安装必要的依赖: pip install gradio-client google-genai google-api-python-client")
     raise e
 
 # 可选TTS库导入
@@ -104,15 +106,17 @@ class YouTubePodcastGenerator:
     
     def setup_apis(self):
         """设置API连接"""
-        # 设置Gemini API - 从环境变量或配置获取
+        # 设置Gemini API - 使用新版 google-genai SDK
         import os
         gemini_key = self.config.get('GEMINI_API_KEY') or os.getenv('GEMINI_API_KEY')
-        
+
         if gemini_key:
-            genai.configure(api_key=gemini_key)  # type: ignore
-            # 使用与主系统一致的模型配置（从配置文件读取）
+            # 使用与主系统一致的模型配置
             model_name = "gemini-2.5-flash"  # 默认模型
-            self.gemini_model = genai.GenerativeModel(model_name)  # type: ignore
+            # 使用 GeminiClient 兼容层
+            from .gemini_client import configure, GenerativeModel
+            configure(api_key=gemini_key)
+            self.gemini_model = GenerativeModel(model_name)
             self._log(f"✅ Gemini配置完成 - 模型: {model_name}", "info")
         else:
             # 对于某些功能（如查看文件列表），不强制要求Gemini API

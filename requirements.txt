@@ -12,7 +12,7 @@ filetype>=1.2.0
 
 # 内容处理
 python-frontmatter>=1.0.0
-google-generativeai>=0.3.0
+google-genai>=1.0.0  # 新版统一SDK (替代已弃用的google-generativeai)
 markdown-it-py>=3.0.0  # 用于解析Markdown
 beautifulsoup4>=4.12.3 # 用于从HTML中提取文本
 

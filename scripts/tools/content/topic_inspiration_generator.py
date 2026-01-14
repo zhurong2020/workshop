@@ -31,19 +31,16 @@ except ImportError:
     print("⚠️ 警告：未安装python-dotenv库，请运行: pip install python-dotenv")
 
 try:
-    import google.generativeai as genai  # type: ignore
-    # 验证库是否正确安装并可用
-    if hasattr(genai, 'configure') and hasattr(genai, 'GenerativeModel'):
-        # 主要功能可用
-        pass
-    else:
-        raise AttributeError("google.generativeai库功能不完整")
+    # 使用新版 google-genai SDK
+    from google import genai as google_genai
+    from scripts.core.gemini_client import configure as genai_configure, GenerativeModel as GenaiModel
+    GENAI_AVAILABLE = True
 except ImportError:
-    print("⚠️ 警告：未安装google-generativeai库，请运行: pip install google-generativeai")
-    genai = None
-except AttributeError:
-    print("⚠️ 警告：google-generativeai库版本可能不兼容")
-    genai = None
+    print("警告：未安装google-genai库，请运行: pip install google-genai")
+    google_genai = None
+    genai_configure = None
+    GenaiModel = None
+    GENAI_AVAILABLE = False
 
 @dataclass
 class NewsResult:
@@ -134,37 +131,33 @@ class TopicInspirationGenerator:
 
     def _init_gemini_client(self):
         """初始化Gemini客户端"""
-        if genai is None:
-            raise ValueError("未安装google-generativeai库，请运行: pip install google-generativeai")
-        
+        if not GENAI_AVAILABLE:
+            raise ValueError("未安装google-genai库，请运行: pip install google-genai")
+
         # 确保加载环境变量
         from dotenv import load_dotenv
         load_dotenv()
-            
+
         # 尝试从两个可能的环境变量名获取API密钥
         api_key = os.getenv('GEMINI_API_KEY') or os.getenv('GOOGLE_API_KEY')
         if not api_key:
             raise ValueError("未找到GEMINI_API_KEY或GOOGLE_API_KEY环境变量，请在.env文件中配置")
-        
+
         try:
-            genai.configure(api_key=api_key)  # type: ignore
-            
+            genai_configure(api_key=api_key)
+
             # 使用最新的Gemini 2.5模型
-            model = genai.GenerativeModel(  # type: ignore[attr-defined]
-                model_name='gemini-2.5-pro'
-            )
-            
+            model = GenaiModel('gemini-2.5-pro')
+
             # 不在初始化时测试连接，避免阻塞程序启动
-            print("✅ Gemini客户端初始化完成")
+            print("[OK] Gemini客户端初始化完成")
             return model
-            
+
         except Exception as e:
-            print(f"⚠️ Gemini客户端初始化警告: {e}")
-            print("💡 这不会影响后续搜索功能，如遇到问题请检查API密钥")
+            print(f"[WARN] Gemini客户端初始化警告: {e}")
+            print("这不会影响后续搜索功能，如遇到问题请检查API密钥")
             # 仍然返回model，让具体搜索时处理错误
-            model = genai.GenerativeModel(  # type: ignore[attr-defined]
-                model_name='gemini-2.5-pro'
-            )
+            model = GenaiModel('gemini-2.5-pro')
             return model
 
     def _load_domain_config(self) -> Dict[str, Any]:
@@ -2254,11 +2247,11 @@ toc_sticky: true
             # 使用Gemini生成详细规划
             if self.gemini_client:
                 try:
-                    model = genai.GenerativeModel('gemini-1.5-flash')  # type: ignore
+                    model = GenaiModel('gemini-1.5-flash')
                     response = model.generate_content(plan_prompt)
                     return response.text
                 except Exception as e:
-                    print(f"⚠️ Gemini生成失败: {e}")
+                    print(f"[WARN] Gemini生成失败: {e}")
                     return self._generate_fallback_plan(topic, content_type)
             else:
                 return self._generate_fallback_plan(topic, content_type)

@@ -5,9 +5,17 @@ AI处理模块
 import logging
 import frontmatter
 # Path在未来可能需要
-from typing import Optional, Dict, Any, List
-from google.generativeai.generative_models import GenerativeModel
-from google.api_core.exceptions import ResourceExhausted
+from typing import Optional, Dict, Any, List, Union
+
+# 使用新版 google-genai SDK 的兼容层
+from ..gemini_client import GenerativeModel
+
+# API 异常处理
+try:
+    from google.api_core.exceptions import ResourceExhausted
+except ImportError:
+    class ResourceExhausted(Exception):
+        pass
 
 
 class AIProcessor:

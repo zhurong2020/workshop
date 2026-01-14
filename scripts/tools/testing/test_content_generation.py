@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 """
 测试内容生成功能
+使用新版 google-genai SDK
 """
 import os
 import sys
@@ -9,22 +10,22 @@ import re
 from pathlib import Path
 
 # 添加项目根目录到路径
-project_root = Path(__file__).parent.parent.parent
+project_root = Path(__file__).parent.parent.parent.parent
 sys.path.insert(0, str(project_root))
 
 from dotenv import load_dotenv
-import google.generativeai as genai
+
+# 使用新版 google-genai SDK 的兼容层
+from scripts.core.gemini_client import configure, GenerativeModel
 
 # 加载环境变量
 load_dotenv()
 
 def test_content_guide_generation():
     """测试内容导读生成"""
-    print("🧪 测试内容导读生成...")
-    
+    print("测试内容导读生成...")
+
     # 设置API
-    from google.generativeai.client import configure
-    from google.generativeai.generative_models import GenerativeModel
     configure(api_key=os.getenv('GEMINI_API_KEY'))
     model = GenerativeModel('gemini-1.5-flash')
     
@@ -94,11 +95,9 @@ def test_content_guide_generation():
 
 def test_podcast_script_generation():
     """测试播客脚本生成"""
-    print("\n🎧 测试播客脚本生成...")
-    
-    # 设置API
-    from google.generativeai.client import configure
-    from google.generativeai.generative_models import GenerativeModel
+    print("\n测试播客脚本生成...")
+
+    # 设置API - 使用已导入的兼容层
     configure(api_key=os.getenv('GEMINI_API_KEY'))
     model = GenerativeModel('gemini-1.5-flash')
     

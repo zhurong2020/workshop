@@ -19,12 +19,11 @@ load_dotenv()
 
 # 第三方库导入
 try:
-    import google.generativeai as genai
-    from google.generativeai.client import configure
-    from google.generativeai.generative_models import GenerativeModel
+    # 使用新版 google-genai SDK 的兼容层
+    from .gemini_client import configure, GenerativeModel
     from googleapiclient.discovery import build
 except ImportError as e:
-    print(f"请安装必要的依赖: pip install google-generativeai google-api-python-client")
+    print(f"请安装必要的依赖: pip install google-genai google-api-python-client")
     raise e
 
 try:

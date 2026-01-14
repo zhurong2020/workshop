@@ -10,11 +10,22 @@ project_root = Path(__file__).parent.parent
 sys.path.insert(0, str(project_root))
 
 from dotenv import load_dotenv
-import google.generativeai as genai
-from google.api_core import exceptions
+
+# 使用新版 google-genai SDK
+from google import genai
+from google.genai import types
+
+# API 异常处理
+try:
+    from google.api_core import exceptions
+except ImportError:
+    class exceptions:
+        class ResourceExhausted(Exception):
+            pass
 
 # 现在导入本地模块
 from scripts.core.content_pipeline import ContentPipeline
+from scripts.core.gemini_client import GeminiClient, GenerativeModel
 from scripts import setup_logger
 
 # 设置测试日志
@@ -25,35 +36,35 @@ def gemini_model():
     """创建 Gemini 模型实例的 fixture"""
     # 加载环境变量
     load_dotenv(override=True)
-    
+
     # 获取并验证 API key
     api_key = os.getenv("GEMINI_API_KEY")
     if not api_key:
         pytest.skip("❌ API key not found in .env file")
     if not api_key.startswith("AIza"):
         pytest.skip("❌ API key format appears to be invalid")
-        
+
     logging.info(f"✓ API key loaded (starts with): {api_key[:10]}...")
-    
-    # 获取可用模型列表
+
+    # 使用新版 SDK 创建客户端
     try:
-        from google.generativeai.client import configure
-        from google.generativeai.models import list_models
-        configure(api_key=api_key)
-        models = list_models()
-        model_names = [model.name for model in models]
+        client = genai.Client(api_key=api_key)
+
+        # 获取可用模型列表
+        models_response = client.models.list()
+        model_names = [model.name for model in models_response]
         logging.info(f"Available models: {model_names}")
-        
+
         # 优先选择 Gemini 2.5 模型
         preferred_models = [
-            "models/gemini-2.5-flash",
-            "models/gemini-2.5-pro",
-            "models/gemini-2.0-flash",
-            "models/gemini-2.0-pro",
-            "models/gemini-1.5-flash",
-            "models/gemini-1.5-pro"
+            "gemini-2.5-flash",
+            "gemini-2.5-pro",
+            "gemini-2.0-flash",
+            "gemini-2.0-pro",
+            "gemini-1.5-flash",
+            "gemini-1.5-pro"
         ]
-        
+
         # 查找最佳匹配模型
         model_name = None
         for preferred in preferred_models:
@@ -67,24 +78,23 @@ def gemini_model():
                     model_name = matching_models[0]
                     logging.info(f"Found experimental model: {model_name}")
                 break
-        
+
         # 如果没有找到匹配的模型，使用任何可用的 Gemini 模型
         if not model_name:
             gemini_models = [name for name in model_names if 'gemini' in name.lower()]
             if gemini_models:
                 model_name = gemini_models[0]
             else:
-                model_name = "models/gemini-2.5-flash"  # 默认值
-        
+                model_name = "gemini-2.5-flash"  # 默认值
+
         logging.info(f"Using model: {model_name}")
-        
-        # 创建模型实例
-        from google.generativeai.generative_models import GenerativeModel
+
+        # 使用兼容层创建模型实例
         model = GenerativeModel(model_name)
-        
+
         # 测试连接
         response = model.generate_content("Hello, how are you?")
-        if response:
+        if response and response.text:
             return model
         else:
             pytest.skip("❌ Failed to generate content with Gemini model")
