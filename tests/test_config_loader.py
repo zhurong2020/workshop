@@ -278,24 +278,23 @@ class TestConfigFiles:
         app_yml = config.config_dir / "app.yml"
         assert app_yml.exists(), "app.yml 应该存在"
 
-    def test_pipeline_config_exists(self):
-        """测试 pipeline_config.yml 存在（兼容性）"""
+    def test_elevenlabs_voices_exists(self):
+        """测试 elevenlabs_voices.yml 存在"""
         config = get_config()
-        pipeline_config = config.config_dir / "pipeline_config.yml"
-        assert pipeline_config.exists(), "pipeline_config.yml 应该存在（兼容性）"
+        elevenlabs = config.config_dir / "elevenlabs_voices.yml"
+        assert elevenlabs.exists(), "elevenlabs_voices.yml 应该存在"
 
-    def test_platforms_yml_exists(self):
-        """测试 platforms.yml 存在"""
+    def test_vip_content_config_exists(self):
+        """测试 vip_content_config.yml 存在"""
         config = get_config()
-        platforms_yml = config.config_dir / "platforms.yml"
-        assert platforms_yml.exists(), "platforms.yml 应该存在"
+        vip_config = config.config_dir / "vip_content_config.yml"
+        assert vip_config.exists(), "vip_content_config.yml 应该存在"
 
-    def test_archived_directory(self):
-        """测试归档目录存在"""
+    def test_inspiration_domains_exists(self):
+        """测试 inspiration_domains.yml 存在"""
         config = get_config()
-        archived = config.config_dir / "archived"
-        assert archived.exists(), "archived 目录应该存在"
-        assert archived.is_dir(), "archived 应该是目录"
+        domains = config.config_dir / "inspiration_domains.yml"
+        assert domains.exists(), "inspiration_domains.yml 应该存在"
 
 
 if __name__ == "__main__":

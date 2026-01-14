@@ -2,7 +2,9 @@
 # 有心工坊 主配置文件
 # ==============================================================================
 # 此文件整合了核心运行配置，包括路径、AI、平台等设置
-# 敏感信息（API密钥等）请在 .env 文件中配置
+# 敏感信息（API密钥、密码、Token）请在 .env 文件中配置
+#
+# 配置优先级: 环境变量 > app.yml > 默认值
 
 # ==============================================================================
 # 路径配置
@@ -28,7 +30,7 @@ logging:
   backup_count: 5
 
 # ==============================================================================
-# AI 内容处理配置 (Gemini)
+# AI 内容处理配置
 # ==============================================================================
 ai:
   gemini:
@@ -36,7 +38,7 @@ ai:
     temperature: 0.7
     max_output_tokens: 2048
     top_p: 0.8
-    # 提示词模板
+    # API密钥在 .env: GEMINI_API_KEY
     prompts:
       polish: "请润色以下文章，保持原意，使表达更流畅..."
       excerpt: "请为以下文章生成50-60字的摘要..."
@@ -51,6 +53,7 @@ platforms:
     enabled: true
     name: github_pages
     domain: "zhurong2020.github.io/workshop"
+    url: "https://zhurong2020.github.io/workshop"
     author: Rong Zhu
     features:
       polish_content: false
@@ -64,7 +67,9 @@ platforms:
     enabled: true
     name: wechat
     author: 有心言者
+    api_base_url: "https://api.weixin.qq.com/cgi-bin"
     publish_mode: guide        # 'guide' or 'api'
+    # 敏感信息在 .env: WECHAT_APPID, WECHAT_APPSECRET
     features:
       polish_content: true
       analyze_content: true
@@ -77,8 +82,12 @@ platforms:
     name: wordpress
     type: rest_api
     domain: "arong.eu.org"
+    url: "https://www.arong.eu.org"
     api_endpoint: "https://www.arong.eu.org/wp-json/"
+    api_url: "https://www.arong.eu.org/wp-json/wp/v2"
+    jwt_url: "https://www.arong.eu.org/wp-json/jwt-auth/v1/token"
     author: Rong Zhu
+    # 敏感信息在 .env: WORDPRESS_USERNAME, WORDPRESS_APP_PASSWORD
     features:
       polish_content: false
       analyze_content: true
@@ -86,6 +95,29 @@ platforms:
       append_footer: true
       convert_to_gutenberg: true
     publish_status: draft      # draft 或 publish
+
+# ==============================================================================
+# GitHub 配置
+# ==============================================================================
+github:
+  username: "zhurong2020"
+  repo: "youxinyanzhe"
+  # Token 在 .env: GITHUB_TOKEN
+
+# ==============================================================================
+# OneDrive 图床配置
+# ==============================================================================
+onedrive:
+  redirect_uri: "http://localhost:8080/callback"
+  # 敏感信息在 .env: ONEDRIVE_TENANT_ID, ONEDRIVE_CLIENT_ID, ONEDRIVE_CLIENT_SECRET
+
+# ==============================================================================
+# 邮件配置
+# ==============================================================================
+email:
+  smtp_server: "smtp.gmail.com"
+  smtp_port: 587
+  # 敏感信息在 .env: GMAIL_USER, GMAIL_APP_PASSWORD
 
 # ==============================================================================
 # 文章分类体系 (四大核心分类)
@@ -97,24 +129,34 @@ categories:
     - 认知心理学
     - 决策科学
     - 终身学习
+    - 思辨认知
   技术赋能:
     - 实用工具
     - 技术教程
     - 自动化方案
     - 效率提升
     - 云服务
+    - 工具指南
+    - 应用部署
     - 人工智能应用
   全球视野:
     - 国际趋势洞察
     - 文化差异观察
     - 跨文化思维训练
+    - 全球化思维
+    - 国际政经观察
     - 科技趋势分析
+    - 行业动态
+    - 创新项目
   投资理财:
     - 投资策略
     - 理财方法
+    - 财务自由规划
     - 量化分析
     - 基金投资
     - 股票投资
+    - 量化交易
+    - 投资心理学
 
 # ==============================================================================
 # 文章模板配置
@@ -134,9 +176,38 @@ templates:
       toc_sticky: true
 
 # ==============================================================================
-# 兼容性：导入旧配置文件（将在未来版本移除）
+# 文章页脚配置
 # ==============================================================================
+footer:
+  github_pages: |
+    {% assign investment_tags = 'QDII基金,指数投资,标普500,纳斯达克100,定投策略,基金投资,股票投资,投资理财,量化交易,投资策略,风险管理,资产配置,投资心理,美股投资,ETF投资' | split: ',' %}
+    {% assign show_investment_disclaimer = false %}
+    {% for tag in page.tags %}
+      {% if investment_tags contains tag %}
+        {% assign show_investment_disclaimer = true %}
+        {% break %}
+      {% endif %}
+    {% endfor %}
+
+    {% if show_investment_disclaimer %}
+    ---
+
+    **💭 学习分享声明**：这里记录的是我在投资理财学习路上的个人思考和实践心得。正如《金钱心理学》所言："每个人的情况不同"，投资决策需要结合您的具体情况、风险承受能力和投资目标。本文仅供学习交流，不构成投资建议，请保持独立思考，持续学习。
+
+    {% endif %}
+
+    如果你觉得我的文章对你有帮助，可以[请我喝咖啡](https://www.buymeacoffee.com/zhurong052Q)
+
+    <a href="https://www.buymeacoffee.com/zhurong052Q" target="_blank"><img src="https://cdn.buymeacoffee.com/buttons/v2/default-yellow.png" alt="Buy Me A Coffee" style="height: 60px !important;width: 217px !important;" ></a>
+
+    > 💬 **发表评论**: 您需要有一个 GitHub 账号来发表评论。
+
+# ==============================================================================
+# 功能模块配置导入
+# ==============================================================================
+# 以下配置文件包含独立功能模块的详细设置，保持独立便于维护
 imports:
-  - post_templates.yml       # 文章模板详细配置
-  - inspiration_domains.yml  # 领域知识库
-  - vip_content_config.yml   # VIP 内容配置
+  - inspiration_domains.yml    # 领域知识库
+  - vip_content_config.yml     # VIP 内容配置
+  - elevenlabs_voices.yml      # ElevenLabs 语音配置
+  - youtube_podcast_config.yml # YouTube 播客配置

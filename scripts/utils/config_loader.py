@@ -1,6 +1,6 @@
 """
 统一配置加载器
-支持新旧配置格式的兼容加载
+整合 app.yml 和 .env 的配置管理
 """
 
 import os
@@ -50,28 +50,13 @@ class ConfigLoader:
         """加载所有配置"""
         config = {}
 
-        # 1. 优先加载新版主配置 (app.yml)
+        # 1. 加载主配置 (app.yml)
         app_config = self._load_yaml("app.yml")
         if app_config:
             config.update(app_config)
             self.logger.debug("Loaded config/app.yml")
 
-        # 2. 加载旧版配置作为后备（向后兼容）
-        legacy_configs = [
-            ("pipeline_config.yml", ["paths", "logging", "content_processing"]),
-            ("gemini_config.yml", ["content_processing"]),
-            ("platforms.yml", ["platforms"]),
-            ("post_templates.yml", ["front_matter", "categories", "footer"]),
-        ]
-
-        for filename, keys in legacy_configs:
-            legacy = self._load_yaml(filename)
-            if legacy:
-                for key in keys:
-                    if key in legacy and key not in config:
-                        config[key] = legacy[key]
-
-        # 3. 处理导入的配置文件
+        # 2. 处理导入的配置文件
         if "imports" in config:
             for import_file in config["imports"]:
                 imported = self._load_yaml(import_file)
@@ -81,7 +66,7 @@ class ConfigLoader:
                         if key not in config:
                             config[key] = value
 
-        # 4. 环境变量覆盖
+        # 3. 环境变量覆盖
         config = self._apply_env_overrides(config)
 
         return config
@@ -146,7 +131,7 @@ class ConfigLoader:
         return ConfigLoader._config or {}
 
     def get(self, key: str, default: Any = None) -> Any:
-        """获取配置项"""
+        """获取配置项（支持点号表示法）"""
         keys = key.split(".")
         value = self.config
         for k in keys:
@@ -169,9 +154,7 @@ class ConfigLoader:
 
     def get_ai_config(self) -> Dict[str, Any]:
         """获取 AI 配置"""
-        # 支持新旧两种配置格式
-        ai_config = self.get("ai.gemini") or self.get("content_processing.gemini", {})
-        return ai_config
+        return self.get("ai.gemini", {})
 
     def get_categories(self) -> Dict[str, list]:
         """获取分类配置"""
@@ -179,16 +162,79 @@ class ConfigLoader:
 
     def get_templates(self) -> Dict[str, Any]:
         """获取模板配置"""
-        return self.get("templates", {}) or self.get("front_matter", {})
+        return self.get("templates", {})
 
-    # WordPress 配置兼容方法
+    def get_footer(self, platform: str = "github_pages") -> str:
+        """获取页脚配置"""
+        return self.get(f"footer.{platform}", "")
+
+    # =========================================================================
+    # 服务配置方法（整合 app.yml 和 .env）
+    # =========================================================================
+
     def get_wordpress_config(self) -> Dict[str, str]:
-        """获取 WordPress 配置（支持多种环境变量名）"""
+        """获取 WordPress 配置
+
+        URL 端点从 app.yml，凭据从 .env
+        """
+        platform = self.get_platform("wordpress")
         return {
-            "url": os.getenv("WORDPRESS_URL") or os.getenv("WP_URL", ""),
-            "username": os.getenv("WORDPRESS_USERNAME") or os.getenv("WP_USERNAME", ""),
-            "password": os.getenv("WORDPRESS_APP_PASSWORD") or os.getenv("WP_APP_PASSWORD") or os.getenv("WP_PASSWORD", ""),
-            "api_url": os.getenv("WORDPRESS_API_URL") or os.getenv("WP_API_URL", ""),
+            "url": platform.get("url", ""),
+            "api_url": platform.get("api_url", ""),
+            "api_endpoint": platform.get("api_endpoint", ""),
+            "jwt_url": platform.get("jwt_url", ""),
+            "username": os.getenv("WORDPRESS_USERNAME", ""),
+            "password": os.getenv("WORDPRESS_APP_PASSWORD", ""),
+        }
+
+    def get_wechat_config(self) -> Dict[str, str]:
+        """获取微信公众号配置
+
+        API 端点从 app.yml，凭据从 .env
+        """
+        platform = self.get_platform("wechat")
+        return {
+            "api_base_url": platform.get("api_base_url", ""),
+            "appid": os.getenv("WECHAT_APPID", ""),
+            "appsecret": os.getenv("WECHAT_APPSECRET", ""),
+        }
+
+    def get_github_config(self) -> Dict[str, str]:
+        """获取 GitHub 配置
+
+        用户名和仓库从 app.yml，Token 从 .env
+        """
+        github = self.get("github", {})
+        return {
+            "username": github.get("username", ""),
+            "repo": github.get("repo", ""),
+            "token": os.getenv("GITHUB_TOKEN", ""),
+        }
+
+    def get_onedrive_config(self) -> Dict[str, str]:
+        """获取 OneDrive 配置
+
+        redirect_uri 从 app.yml，凭据从 .env
+        """
+        onedrive = self.get("onedrive", {})
+        return {
+            "redirect_uri": onedrive.get("redirect_uri", ""),
+            "tenant_id": os.getenv("ONEDRIVE_TENANT_ID", ""),
+            "client_id": os.getenv("ONEDRIVE_CLIENT_ID", ""),
+            "client_secret": os.getenv("ONEDRIVE_CLIENT_SECRET", ""),
+        }
+
+    def get_email_config(self) -> Dict[str, Any]:
+        """获取邮件配置
+
+        服务器配置从 app.yml，凭据从 .env
+        """
+        email = self.get("email", {})
+        return {
+            "smtp_server": email.get("smtp_server", ""),
+            "smtp_port": email.get("smtp_port", 587),
+            "user": os.getenv("GMAIL_USER", ""),
+            "password": os.getenv("GMAIL_APP_PASSWORD", ""),
         }
 
 
