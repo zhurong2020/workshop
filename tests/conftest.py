@@ -13,11 +13,13 @@ from scripts import setup_logger
 # 设置测试日志
 logger = setup_logger("TestFixtures")
 
-@pytest.fixture(scope="session", autouse=True)
-def check_environment():
-    """检查测试环境配置"""
+def pytest_collection_modifyitems(config, items):
+    """根据测试文件动态添加 marker"""
     load_dotenv(override=True)
-    
+
+    # 不需要环境变量检查的测试文件
+    skip_env_check_files = ['test_config_loader.py']
+
     # 检查必要的环境变量
     required_vars = {
         'CLOUDFLARE_ACCOUNT_ID': '用于 Cloudflare Images',
@@ -25,16 +27,24 @@ def check_environment():
         'CLOUDFLARE_API_TOKEN': '用于 Cloudflare API 认证',
         'GEMINI_API_KEY': '用于 Google Gemini API'
     }
-    
+
     missing_vars = []
     for var, desc in required_vars.items():
         if not os.getenv(var):
             missing_vars.append(f"{var} ({desc})")
-    
+
     if missing_vars:
-        pytest.skip(f"缺少必要的环境变量:\n" + "\n".join(missing_vars))
-    
-    logger.info("✅ 环境变量检查通过")
+        skip_marker = pytest.mark.skip(
+            reason=f"缺少必要的环境变量:\n" + "\n".join(missing_vars)
+        )
+        for item in items:
+            # 获取测试文件名
+            test_file = item.fspath.basename if hasattr(item, 'fspath') else ""
+            # 只对需要环境变量的测试添加 skip marker
+            if test_file not in skip_env_check_files:
+                item.add_marker(skip_marker)
+    else:
+        logger.info("✅ 环境变量检查通过")
 
 @pytest.fixture(scope="session")
 def test_config():
