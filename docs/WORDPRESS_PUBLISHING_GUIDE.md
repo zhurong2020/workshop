@@ -245,11 +245,13 @@ header:
 
 ### Q2: GitHub Pages 没有生成引流链接
 
-**A:** 确保 `platforms.yml` 中：
+**A:** 确保 `config/app.yml` 中：
 ```yaml
-github_pages:
-  enabled: true
-  excerpt_mode: true  # 必须为 true
+platforms:
+  github_pages:
+    enabled: true
+    features:
+      excerpt_mode: true  # 必须为 true
 ```
 
 ### Q3: 微信公众号指南在哪里？
@@ -262,12 +264,13 @@ workshop/微信发布指南/[文章标题].md
 
 ### Q4: 如何修改 WordPress 发布状态（草稿 vs 直接发布）
 
-**A:** 修改 `config/platforms.yml`：
+**A:** 修改 `config/app.yml`：
 ```yaml
-wordpress:
-  publish_status: draft   # 草稿
-  # 或
-  publish_status: publish # 直接发布
+platforms:
+  wordpress:
+    publish_status: draft   # 草稿
+    # 或
+    publish_status: publish # 直接发布
 ```
 
 ### Q5: 文章包含数学公式，WordPress 显示不正常
