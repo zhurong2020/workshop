@@ -10,12 +10,15 @@ from rich.console import Console
 from pathlib import Path
 from typing import List, Dict, Optional, Tuple, Any
 from datetime import datetime
-# google.generativeai导入移动到AI处理器中
-from google.generativeai.client import configure
-from google.generativeai.generative_models import GenerativeModel
-from google.generativeai.types import GenerationConfig
-# BlockedPromptException移动到AI处理器中
-from google.api_core.exceptions import ResourceExhausted
+# 使用新版 google-genai SDK 的兼容层
+from .gemini_client import configure, GenerativeModel, GenerationConfig
+# API 异常处理
+try:
+    from google.api_core.exceptions import ResourceExhausted
+except ImportError:
+    # 如果 google-api-core 未安装，定义一个占位异常
+    class ResourceExhausted(Exception):
+        pass
 import argparse
 import requests
 from dotenv import load_dotenv
@@ -66,8 +69,9 @@ class ContentPipeline:
             # 初始化图片处理器
             self.image_processor = ImageProcessor(self.logger)
             
-            # AI处理器将在模型初始化后设置
+            # AI处理器和平台处理器将在需要时延迟初始化
             self.ai_processor = None
+            self.platform_processor = None
             
             # 初始化存量文档状态
             posts_dir = Path(self.config["paths"]["posts"])
@@ -107,21 +111,14 @@ class ContentPipeline:
             self.logger.warning("未加载模板或模板为空")
         
         self.platforms_config = self.config.get('platforms', {})
-        
-        # 设置API
-        self._setup_apis()
+
+        # 延迟加载 API - 不在启动时初始化，提高启动速度
+        self.model = None
+        self._api_initialized = False
         self._setup_site_url()
 
-        # 初始化发布器
+        # 微信发布器延迟初始化
         self.wechat_publisher = None
-        try:
-            if self.platforms_config.get("wechat", {}).get("enabled", False):
-                # Pass the initialized Gemini model to the publisher
-                self.wechat_publisher = WechatPublisher(gemini_model=self.model)
-                self.log("✅ 微信发布器初始化成功", level="debug")
-        except Exception as e:
-            self.log(f"⚠️ 微信发布器初始化失败: {e}", level="warning")
-            self.log("微信发布功能将不可用，但不影响其他功能", level="info")
         
         # 标记初始化完成
         ContentPipeline._initialized = True
@@ -242,62 +239,78 @@ class ContentPipeline:
         if self.verbose:
             self.log("📄 日志系统初始化完成", level="debug")
     
-    def _setup_apis(self):
-        """设置API客户端"""
+    def ensure_api_ready(self) -> bool:
+        """
+        确保 API 已初始化（延迟加载）
+
+        Returns:
+            bool: API 是否可用
+        """
+        if self._api_initialized:
+            return self.api_available
+
+        return self._setup_apis()
+
+    def _setup_apis(self) -> bool:
+        """
+        设置API客户端（延迟调用）
+
+        Returns:
+            bool: 初始化是否成功
+        """
+        if self._api_initialized:
+            return self.api_available
+
         load_dotenv(override=True)  # 确保重新加载环境变量
         api_key = os.getenv("GEMINI_API_KEY")
         if not api_key:
-            raise ValueError("GEMINI_API_KEY not found in environment variables")
-        
+            self.log("未找到 GEMINI_API_KEY 环境变量，AI 功能将不可用", level="warning")
+            self._api_initialized = True
+            self.api_available = False
+            return False
+
         try:
             configure(api_key=api_key)
-            
+
             # 使用配置文件中的模型名称
             model_name = self.config["content_processing"]["gemini"]["model"]
-            if self.is_first_init:
-                self.log(f"使用配置的模型: {model_name}", level="info")
-            else:
-                self.log(f"使用配置的模型: {model_name}", level="debug")
+            self.log(f"正在初始化 Gemini 模型: {model_name}", level="info")
+
             # 创建模型实例
             self.model = GenerativeModel(model_name)
-            
-            # 现在可以初始化AI处理器
+
+            # 初始化AI处理器
             self.ai_processor = AIProcessor(self.model, self.logger)
-            
+
             # 初始化平台处理器
             self.platform_processor = PlatformProcessor(self.platforms_config, self.project_root, self.logger)
-            
-            # 测试连接
-            try:
-                response = self.model.generate_content(
-                    "Test connection",
-                    generation_config=GenerationConfig(
-                        temperature=0.1,
-                        max_output_tokens=10
-                    )
-                )
-                if response:
-                    if self.is_first_init:
-                        self.log("✅ Gemini API 连接成功", level="info")
-                    else:
-                        self.log("✅ Gemini API 连接成功", level="debug")
-                    
-                    # 验证模板加载
-                    self._validate_templates()
-            except ResourceExhausted as e:
-                self.log(f"❌ API 配额已耗尽，请稍后再试: {str(e)}", level="error", force=True)
-                # 不抛出异常，允许程序继续运行，但标记API不可用
-                self.api_available = False
-            except Exception as e:
-                # 只在debug模式下显示详细错误，否则只显示简单提示
-                if self.verbose:
-                    self.log(f"⚠️ Gemini API 暂时不可用: {str(e)}", level="warning")
-                else:
-                    self.log("ℹ️ Gemini API 未配置，部分AI功能将不可用", level="info")
-                self.api_available = False
+
+            # 初始化微信发布器（如果配置启用）
+            if self.platforms_config.get("wechat", {}).get("enabled", False):
+                try:
+                    self.wechat_publisher = WechatPublisher(gemini_model=self.model)
+                    self.log("微信发布器初始化成功", level="debug")
+                except Exception as e:
+                    self.log(f"微信发布器初始化失败: {e}", level="warning")
+
+            # 验证模板加载
+            self._validate_templates()
+
+            self._api_initialized = True
+            self.api_available = True
+            self.log("Gemini API 初始化成功", level="info")
+            return True
+
+        except ResourceExhausted as e:
+            self.log(f"API 配额已耗尽: {str(e)}", level="error", force=True)
+            self._api_initialized = True
+            self.api_available = False
+            return False
         except Exception as e:
-            self.log(f"❌ 设置API失败: {str(e)}", level="error", force=True)
-            raise
+            self.log(f"Gemini API 初始化失败: {str(e)}", level="warning")
+            self._api_initialized = True
+            self.api_available = False
+            return False
             
     def _validate_templates(self):
         """验证模板是否正确加载"""
