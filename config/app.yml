@@ -1,0 +1,142 @@
+# ==============================================================================
+# 有心工坊 主配置文件
+# ==============================================================================
+# 此文件整合了核心运行配置，包括路径、AI、平台等设置
+# 敏感信息（API密钥等）请在 .env 文件中配置
+
+# ==============================================================================
+# 路径配置
+# ==============================================================================
+paths:
+  root: "."
+  drafts: "_drafts"
+  posts: "_posts"
+  images: "assets/images/posts"
+  output: "_output"
+  archive: "_drafts/archived"
+  logs: "logs"
+  data: "_data"
+
+# ==============================================================================
+# 日志配置
+# ==============================================================================
+logging:
+  level: "WARNING"           # DEBUG, INFO, WARNING, ERROR
+  format: "%(asctime)s - %(name)s - %(levelname)s - %(message)s"
+  file_mode: "a"             # a: append, w: overwrite
+  max_size: 10485760         # 10MB
+  backup_count: 5
+
+# ==============================================================================
+# AI 内容处理配置 (Gemini)
+# ==============================================================================
+ai:
+  gemini:
+    model: "gemini-2.5-flash"
+    temperature: 0.7
+    max_output_tokens: 2048
+    top_p: 0.8
+    # 提示词模板
+    prompts:
+      polish: "请润色以下文章，保持原意，使表达更流畅..."
+      excerpt: "请为以下文章生成50-60字的摘要..."
+      categories: "分析以下文章内容，选择最合适的分类..."
+
+# ==============================================================================
+# 发布平台配置
+# ==============================================================================
+platforms:
+  # GitHub Pages (Jekyll 博客)
+  github_pages:
+    enabled: true
+    name: github_pages
+    domain: "zhurong2020.github.io/workshop"
+    author: Rong Zhu
+    features:
+      polish_content: false
+      analyze_content: true
+      replace_images: true
+      append_footer: true
+      excerpt_mode: true       # 启用摘要模式（引流到 WordPress）
+
+  # 微信公众号
+  wechat:
+    enabled: true
+    name: wechat
+    author: 有心言者
+    publish_mode: guide        # 'guide' or 'api'
+    features:
+      polish_content: true
+      analyze_content: true
+      replace_images: true
+      append_footer: false
+
+  # WordPress (主站)
+  wordpress:
+    enabled: true
+    name: wordpress
+    type: rest_api
+    domain: "arong.eu.org"
+    api_endpoint: "https://www.arong.eu.org/wp-json/"
+    author: Rong Zhu
+    features:
+      polish_content: false
+      analyze_content: true
+      replace_images: true
+      append_footer: true
+      convert_to_gutenberg: true
+    publish_status: draft      # draft 或 publish
+
+# ==============================================================================
+# 文章分类体系 (四大核心分类)
+# ==============================================================================
+categories:
+  认知升级:
+    - 思维模型
+    - 学习方法
+    - 认知心理学
+    - 决策科学
+    - 终身学习
+  技术赋能:
+    - 实用工具
+    - 技术教程
+    - 自动化方案
+    - 效率提升
+    - 云服务
+    - 人工智能应用
+  全球视野:
+    - 国际趋势洞察
+    - 文化差异观察
+    - 跨文化思维训练
+    - 科技趋势分析
+  投资理财:
+    - 投资策略
+    - 理财方法
+    - 量化分析
+    - 基金投资
+    - 股票投资
+
+# ==============================================================================
+# 文章模板配置
+# ==============================================================================
+templates:
+  front_matter:
+    default:
+      layout: single
+      author_profile: true
+      breadcrumbs: true
+      comments: true
+      related: true
+      share: true
+      toc: true
+      toc_icon: list
+      toc_label: 本页内容
+      toc_sticky: true
+
+# ==============================================================================
+# 兼容性：导入旧配置文件（将在未来版本移除）
+# ==============================================================================
+imports:
+  - post_templates.yml       # 文章模板详细配置
+  - inspiration_domains.yml  # 领域知识库
+  - vip_content_config.yml   # VIP 内容配置

@@ -30,8 +30,6 @@ content_processing:
 
 # 导入其他配置
 imports:
-  - gemini_config.yml      # AI 内容生成配置
-  - test_config.yml        # 测试相关配置
-  - post_templates.yml
-  - platforms.yml          # 平台配置在这里导入
+  - post_templates.yml     # 文章模板配置
+  - platforms.yml          # 平台配置
 
