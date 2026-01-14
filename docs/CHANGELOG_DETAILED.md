@@ -2,6 +2,78 @@
 
 本文档记录项目的详细更新历史，包括已完成的功能实现和重要技术决策。
 
+## 2026-01-14: Google Gemini SDK 迁移与性能优化
+
+### 🔄 SDK 迁移：google-generativeai → google-genai
+
+#### 背景
+Google 宣布 `google-generativeai` 包已于 2025-11-30 停止支持，需要迁移到新的统一 SDK `google-genai`。
+
+#### 迁移内容
+
+| 类别 | 文件 |
+|------|------|
+| 新增兼容层 | `scripts/core/gemini_client.py` |
+| 核心模块 | `content_pipeline.py`, `ai_processor.py` |
+| 播客生成器 | `youtube_podcast_generator.py`, `fallback_podcast_generator.py` |
+| 工具脚本 | `topic_inspiration_generator.py`, `verify_gemini_model.py` |
+| 测试文件 | `test_gemini.py`, `test_content_generation.py`, `test_reward_system.py` |
+
+#### API 变化对照
+
+| 旧 API | 新 API |
+|--------|--------|
+| `import google.generativeai as genai` | `from google import genai` |
+| `genai.configure(api_key=...)` | `client = genai.Client(api_key=...)` |
+| `genai.GenerativeModel('model')` | `client.models.generate_content(model='model', ...)` |
+
+#### 兼容层设计
+创建 `gemini_client.py` 提供向后兼容接口：
+- `GeminiClient` - 封装新 SDK 客户端
+- `GenerativeModelCompat` - 模拟旧版 `GenerativeModel` 接口
+- `configure()` - 兼容旧版配置方式
+
+### ⚡ 性能优化：AI 延迟加载
+
+#### 问题
+原实现在启动时即初始化 Gemini API 并测试连接，导致：
+- 启动时显示 API 错误（即使不使用 AI 功能）
+- 启动速度较慢
+
+#### 解决方案
+实现延迟加载模式：
+- 启动时不初始化 API
+- 新增 `ensure_api_ready()` 方法
+- 仅在实际使用 AI 功能时才初始化
+
+#### 效果
+- 主菜单即时显示，无 API 错误
+- 启动速度显著提升
+- API 密钥问题不影响非 AI 功能使用
+
+### 🛠️ 开发环境优化
+
+#### VS Code 配置增强
+- 终端自动激活虚拟环境
+- 新增 `venv-init.sh` 启动脚本
+- 优化 Python 解释器路径配置
+
+#### 项目清理工具
+新增 `scripts/tools/cleanup.py`：
+```bash
+python scripts/tools/cleanup.py --all      # 清理所有临时文件
+python scripts/tools/cleanup.py --python   # 清理 Python 缓存
+python scripts/tools/cleanup.py --test     # 清理测试缓存
+python scripts/tools/cleanup.py --logs     # 清理日志文件
+python scripts/tools/cleanup.py --dry-run  # 试运行模式
+```
+
+#### .gitignore 优化
+- 添加 `logs/` 目录
+- 优化 `.vscode/` 规则：保留项目配置，忽略用户设置
+
+---
+
 ## 2026-01-08: mu-plugins统一迁移到vpsserver 📦
 
 ### 🎯 迁移目标
