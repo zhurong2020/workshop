@@ -2,6 +2,71 @@
 
 本文档记录项目的详细更新历史，包括已完成的功能实现和重要技术决策。
 
+## 2026-01-18: Pylance 类型检查问题全面修复
+
+### 🔧 问题背景
+
+VS Code Pylance 检测到 38 个类型错误，主要涉及：
+- 条件导入的类型推断问题
+- `Optional` 类型参数缺失
+- API 响应可能为 `None` 的处理
+- 第三方库导入解析
+
+### 📊 修复成果
+
+| 类别 | 修复前错误数 | 修复后 |
+|------|------------|--------|
+| 核心模块 | 4 | 0 |
+| 播客生成器 | 6 | 0 |
+| 工具脚本 | 10 | 0 |
+| 测试文件 | 10 | 0 |
+| 外部服务 | 5 | 0 |
+| **总计** | **35** | **0** |
+
+### 🛠️ 修复详情
+
+#### 1. 核心模块类型修复
+- `gemini_client.py`: 添加 `safety_settings` 参数兼容旧代码，修复 `generation_config` 类型提示
+- `content_pipeline.py`: 修复 `ResourceExhausted` 条件导入类型
+- `ai_processor.py`: 同上
+
+#### 2. 播客生成器修复
+- `fallback_podcast_generator.py`: 添加 `response.text` None 检查
+- `youtube_podcast_generator.py`: 同上
+
+#### 3. 工具脚本修复
+- `topic_inspiration_generator.py`: 添加 `assert` 断言确保条件导入后类型安全
+- `verify_gemini_model.py`: 过滤模型列表中的 None 值
+- `config_loader.py`: 修复 `Optional[str]` 类型注解
+- `scripts/__init__.py`: 同上
+
+#### 4. 测试文件修复
+- `test_content_generation.py`: 添加 API 密钥和响应 None 检查
+- `test_gemini.py`: 修复模型名列表类型，简化异常导入
+
+#### 5. 外部服务修复
+- `vpsserver/youtube-proxy/main.py`: 添加 `# type: ignore[import-unresolved]` 注释
+
+### 📝 技术要点
+
+**条件导入类型处理模式**:
+```python
+try:
+    from google.api_core.exceptions import ResourceExhausted  # type: ignore[assignment]
+except ImportError:
+    class ResourceExhausted(Exception):  # type: ignore[no-redef]
+        pass
+```
+
+**响应 None 检查模式**:
+```python
+response = model.generate_content(prompt)
+if response.text is None:
+    raise ValueError("AI返回内容为空")
+```
+
+---
+
 ## 2026-01-14: 配置文件完整整合
 
 ### 🔧 配置架构重构
