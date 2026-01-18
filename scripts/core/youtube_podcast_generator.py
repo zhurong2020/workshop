@@ -731,6 +731,8 @@ YouTube 동영상 "{video_info['title']}"에 대한 {podcast_minutes}분간의 �
         try:
             response = self.gemini_model.generate_content(prompt)
             script = response.text
+            if script is None:
+                raise ValueError("AI返回内容为空")
             self._log("播客脚本生成成功")
             return script
         except Exception as e:
@@ -1641,7 +1643,10 @@ YouTube 동영상 "{video_info['title']}"에 대한 {podcast_minutes}분간의 �
         try:
             response = self.gemini_model.generate_content(prompt)
             content_text = response.text
-            
+
+            if content_text is None:
+                raise ValueError("AI返回内容为空")
+
             # 提取JSON内容
             json_match = re.search(r'\{.*\}', content_text, re.DOTALL)
             if json_match:
