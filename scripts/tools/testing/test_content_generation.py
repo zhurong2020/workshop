@@ -26,7 +26,11 @@ def test_content_guide_generation():
     print("测试内容导读生成...")
 
     # 设置API
-    configure(api_key=os.getenv('GEMINI_API_KEY'))
+    api_key = os.getenv('GEMINI_API_KEY')
+    if not api_key:
+        print("❌ 未找到 GEMINI_API_KEY 环境变量")
+        return False
+    configure(api_key=api_key)
     model = GenerativeModel('gemini-1.5-flash')
     
     # 模拟视频信息
@@ -70,9 +74,12 @@ def test_content_guide_generation():
     try:
         response = model.generate_content(prompt)
         content_text = response.text
+        if content_text is None:
+            print("❌ API 返回内容为空")
+            return False
         print(f"✅ API调用成功，响应长度: {len(content_text)}")
         print(f"📄 原始响应:\n{content_text[:500]}...\n")
-        
+
         # 提取JSON内容
         json_match = re.search(r'\{.*\}', content_text, re.DOTALL)
         if json_match:
@@ -98,7 +105,11 @@ def test_podcast_script_generation():
     print("\n测试播客脚本生成...")
 
     # 设置API - 使用已导入的兼容层
-    configure(api_key=os.getenv('GEMINI_API_KEY'))
+    api_key = os.getenv('GEMINI_API_KEY')
+    if not api_key:
+        print("❌ 未找到 GEMINI_API_KEY 环境变量")
+        return False
+    configure(api_key=api_key)
     model = GenerativeModel('gemini-1.5-flash')
     
     # 模拟视频信息
@@ -139,19 +150,22 @@ def test_podcast_script_generation():
     try:
         response = model.generate_content(prompt)
         script = response.text
+        if script is None:
+            print("❌ API 返回内容为空")
+            return False
         print(f"✅ 脚本生成成功，长度: {len(script)} 字符")
-        
+
         # 统计对话轮次
         dialogue_count = len(re.findall(r'\[.*?\]:', script))
         print(f"📊 对话轮次: {dialogue_count}")
-        
+
         # 显示前几行
         lines = script.split('\n')[:10]
         print("📝 脚本预览:")
         for line in lines:
             if line.strip():
                 print(f"  {line}")
-        
+
         return len(script) > 500  # 判断是否生成了足够的内容
         
     except Exception as e:

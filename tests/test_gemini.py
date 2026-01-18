@@ -17,11 +17,11 @@ from google.genai import types
 
 # API 异常处理
 try:
-    from google.api_core import exceptions
+    from google.api_core.exceptions import ResourceExhausted  # type: ignore[assignment]
 except ImportError:
-    class exceptions:
-        class ResourceExhausted(Exception):
-            pass
+    class ResourceExhausted(Exception):  # type: ignore[no-redef]
+        """占位异常类"""
+        pass
 
 # 现在导入本地模块
 from scripts.core.content_pipeline import ContentPipeline
@@ -52,7 +52,8 @@ def gemini_model():
 
         # 获取可用模型列表
         models_response = client.models.list()
-        model_names = [model.name for model in models_response]
+        # 过滤掉 None 值
+        model_names: list[str] = [model.name for model in models_response if model.name is not None]
         logging.info(f"Available models: {model_names}")
 
         # 优先选择 Gemini 2.5 模型
@@ -66,7 +67,7 @@ def gemini_model():
         ]
 
         # 查找最佳匹配模型
-        model_name = None
+        model_name: str = "gemini-2.5-flash"  # 默认值
         for preferred in preferred_models:
             matching_models = [name for name in model_names if preferred in name]
             if matching_models:
@@ -78,14 +79,11 @@ def gemini_model():
                     model_name = matching_models[0]
                     logging.info(f"Found experimental model: {model_name}")
                 break
-
-        # 如果没有找到匹配的模型，使用任何可用的 Gemini 模型
-        if not model_name:
+        else:
+            # 如果循环完没有 break，尝试使用任何可用的 Gemini 模型
             gemini_models = [name for name in model_names if 'gemini' in name.lower()]
             if gemini_models:
                 model_name = gemini_models[0]
-            else:
-                model_name = "gemini-2.5-flash"  # 默认值
 
         logging.info(f"Using model: {model_name}")
 
@@ -98,7 +96,7 @@ def gemini_model():
             return model
         else:
             pytest.skip("❌ Failed to generate content with Gemini model")
-    except exceptions.ResourceExhausted as e:
+    except ResourceExhausted as e:
         pytest.skip(f"❌ API 配额已耗尽: {str(e)}")
     except Exception as e:
         pytest.skip(f"❌ Failed to initialize Gemini model: {str(e)}")
@@ -134,7 +132,7 @@ def test_gemini_connection():
         assert len(response.text) > 0
         
         logger.info(f"生成的内容: {response.text}")
-    except exceptions.ResourceExhausted as e:
+    except ResourceExhausted as e:
         logger.warning(f"API 配额已耗尽: {str(e)}")
         pytest.skip("API 配额已耗尽，跳过测试")
     except Exception as e:
@@ -162,7 +160,7 @@ def test_content_polish(test_draft):
         
         logger.info(f"原始内容长度: {len(content)}")
         logger.info(f"润色后内容长度: {len(polished)}")
-    except exceptions.ResourceExhausted as e:
+    except ResourceExhausted as e:
         logger.warning(f"API 配额已耗尽: {str(e)}")
         pytest.skip("API 配额已耗尽，跳过测试")
     except Exception as e:
