@@ -14,10 +14,10 @@ from datetime import datetime
 from .gemini_client import configure, GenerativeModel, GenerationConfig
 # API 异常处理
 try:
-    from google.api_core.exceptions import ResourceExhausted
+    from google.api_core.exceptions import ResourceExhausted  # type: ignore[assignment]
 except ImportError:
     # 如果 google-api-core 未安装，定义一个占位异常
-    class ResourceExhausted(Exception):
+    class ResourceExhausted(Exception):  # type: ignore[no-redef]
         pass
 import argparse
 import requests

@@ -4,7 +4,7 @@ Gemini AI 客户端封装
 """
 import os
 import logging
-from typing import Optional, Dict, Any
+from typing import Optional, Dict, Any, Union
 from dotenv import load_dotenv
 
 # 加载环境变量
@@ -158,7 +158,8 @@ class GenerativeModelCompat:
     def generate_content(
         self,
         prompt: str,
-        generation_config: Optional[Dict[str, Any]] = None
+        generation_config: Union[Dict[str, Any], "GenerationConfigCompat", None] = None,
+        safety_settings: Optional[Any] = None
     ):
         """
         生成内容（兼容旧接口）
@@ -166,10 +167,14 @@ class GenerativeModelCompat:
         Args:
             prompt: 提示词
             generation_config: 生成配置（字典或 GenerationConfigCompat）
+            safety_settings: 安全设置（已弃用，新版SDK自动处理）
 
         Returns:
             ResponseCompat 对象
         """
+        # safety_settings 在新版 SDK 中已弃用，但保留参数以兼容旧代码
+        if safety_settings:
+            logging.getLogger(__name__).debug("safety_settings 参数已弃用，将被忽略")
         # 解析配置
         temp = 0.7
         max_tokens = 8192

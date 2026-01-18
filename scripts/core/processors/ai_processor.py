@@ -12,9 +12,9 @@ from ..gemini_client import GenerativeModel
 
 # API 异常处理
 try:
-    from google.api_core.exceptions import ResourceExhausted
+    from google.api_core.exceptions import ResourceExhausted  # type: ignore[assignment]
 except ImportError:
-    class ResourceExhausted(Exception):
+    class ResourceExhausted(Exception):  # type: ignore[no-redef]
         pass
 
 
