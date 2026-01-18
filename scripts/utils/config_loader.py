@@ -244,7 +244,7 @@ def get_config() -> ConfigLoader:
     return ConfigLoader()
 
 
-def load_config(key: str = None, default: Any = None) -> Any:
+def load_config(key: Optional[str] = None, default: Any = None) -> Any:
     """加载配置项"""
     loader = ConfigLoader()
     if key:

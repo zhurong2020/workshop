@@ -6,9 +6,10 @@ Content Pipeline Scripts
 import logging
 from pathlib import Path
 from logging.handlers import RotatingFileHandler
+from typing import Optional
 
 
-def setup_logger(name: str, config_path: str = None) -> logging.Logger:
+def setup_logger(name: str, config_path: Optional[str] = None) -> logging.Logger:
     """
     配置并返回一个命名的logger
 

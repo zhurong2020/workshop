@@ -33,7 +33,8 @@ def main():
         # 获取可用模型列表
         print("正在获取可用模型列表...")
         models_response = client.models.list()
-        model_names = [model.name for model in models_response]
+        # 过滤掉None值
+        model_names: list[str] = [model.name for model in models_response if model.name is not None]
 
         print(f"共找到 {len(model_names)} 个可用模型:")
         for name in sorted(model_names):
@@ -42,7 +43,7 @@ def main():
 
         # 检查Gemini 2.5模型可用性
         target_models = ['gemini-2.5-flash', 'gemini-2.5-pro']
-        available_target_models = []
+        available_target_models: list[str] = []
 
         for target in target_models:
             matching = [name for name in model_names if target in name]

@@ -134,6 +134,10 @@ class TopicInspirationGenerator:
         if not GENAI_AVAILABLE:
             raise ValueError("未安装google-genai库，请运行: pip install google-genai")
 
+        # 类型断言：确保导入成功后函数不为None
+        assert genai_configure is not None
+        assert GenaiModel is not None
+
         # 确保加载环境变量
         from dotenv import load_dotenv
         load_dotenv()
@@ -2245,7 +2249,7 @@ toc_sticky: true
             plan_prompt = self._build_detailed_plan_prompt(topic, content_type)
             
             # 使用Gemini生成详细规划
-            if self.gemini_client:
+            if self.gemini_client and GENAI_AVAILABLE and GenaiModel is not None:
                 try:
                     model = GenaiModel('gemini-1.5-flash')
                     response = model.generate_content(plan_prompt)
