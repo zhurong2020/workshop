@@ -2,6 +2,41 @@
 
 本文档记录项目的详细更新历史，包括已完成的功能实现和重要技术决策。
 
+## 2026-01-19: Pylance 导入解析问题修复
+
+### 🔧 问题背景
+
+VS Code Pylance 检测到 3 个导入解析警告：
+- `html2text` 模块未安装导致导入无法解析
+- `gutenberg_converter` 本地模块动态路径无法静态解析
+
+### 📊 修复成果
+
+| 文件 | 问题 | 修复方式 |
+|------|------|----------|
+| `scripts/core/wechat_publisher.py` | html2text 导入警告 | 添加 pyright ignore 注释 |
+| `scripts/core/wordpress_publisher.py` | gutenberg_converter 导入警告 | 添加 pyright ignore 注释 |
+| `scripts/tools/wordpress_migration/gridea_html_to_wp.py` | html2text 导入警告 | 添加 pyright ignore 注释 |
+| `requirements.txt` | html2text 依赖缺失 | 添加 html2text>=2024.2.26 |
+
+### 📝 技术要点
+
+**Pyright/Pylance 导入忽略模式**:
+```python
+import html2text  # pyright: ignore[reportMissingImports]
+```
+
+**动态路径导入处理**:
+```python
+sys.path.insert(0, str(Path(__file__).parent.parent / "tools" / "wordpress_migration"))
+try:
+    from gutenberg_converter import ...  # pyright: ignore[reportMissingImports]
+except ImportError:
+    # fallback implementation
+```
+
+---
+
 ## 2026-01-18: Pylance 类型检查问题全面修复
 
 ### 🔧 问题背景
