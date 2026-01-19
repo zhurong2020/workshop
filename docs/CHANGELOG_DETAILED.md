@@ -2,6 +2,45 @@
 
 本文档记录项目的详细更新历史，包括已完成的功能实现和重要技术决策。
 
+## 2026-01-19: Workspace 命名规范统一
+
+### 🎯 目标
+
+统一 arong-unified workspace 中所有项目的命名规范，便于长期开发维护。
+
+### 📋 规范内容
+
+| 类别 | 规范 | 示例 |
+|------|------|------|
+| 目录名 | 全小写 + 连字符 | `vps-server`, `home-manager` |
+| Python 文件 | snake_case | `content_pipeline.py` |
+| 文档文件 | 大写 + 下划线 | `API_KEYS_REGISTRY.md` |
+| Git 分支 | type/description | `feature/add-podcast` |
+| Commit | type(scope): msg | `fix(api): 修复配额检测` |
+
+### 📝 更新内容
+
+| 文件 | 变更 |
+|------|------|
+| `docs/WORKSPACE_NAMING_CONVENTION.md` | 新建完整命名规范文档 |
+| `arong-unified.code-workspace` | 统一文件夹显示名为纯英文 |
+| `ARONG_UNIFIED_CLAUDE.md` | 更新项目概览，添加命名规范引用 |
+
+### 🗂️ Workspace 文件夹映射
+
+| 显示名称 | 实际路径 |
+|----------|----------|
+| workshop | `./workshop` |
+| gridea-archive | `./zhurong2020.github.io` |
+| vps-server | `./vpsserver` |
+| bizassist | `./bizassist` |
+| smartnews-lite | `./smartnews-lite` |
+| docuforge | `./docuforge` |
+| home-manager | `./home` |
+| moomoo-strategies | `./moomoo_custom_strategies` |
+
+---
+
 ## 2026-01-19: Pylance 导入解析问题修复
 
 ### 🔧 问题背景
