@@ -19,7 +19,7 @@ import frontmatter
 sys.path.insert(0, str(Path(__file__).parent.parent / "tools" / "wordpress_migration"))
 
 try:
-    from gutenberg_converter import convert_html_to_gutenberg_with_stats, ConversionOptions
+    from gutenberg_converter import convert_html_to_gutenberg_with_stats, ConversionOptions  # pyright: ignore[reportMissingImports]
 except ImportError:
     # 如果导入失败，定义一个简单的转换函数
     def convert_html_to_gutenberg_with_stats(html: str, options: Any = None) -> Tuple[str, Dict]:

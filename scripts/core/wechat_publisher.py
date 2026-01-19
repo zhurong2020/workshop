@@ -168,7 +168,7 @@ IMPORTANT FORMATTING RULES:
             self.logger.error(f"AI content summarization failed: {e}. Using original content.")
             print("     ⚠️ AI优化失败，使用原始内容")
             # Fallback: convert markdown to plain text
-            import html2text
+            import html2text  # pyright: ignore[reportMissingImports]
             h = html2text.HTML2Text()
             h.ignore_links = True
             h.ignore_images = True

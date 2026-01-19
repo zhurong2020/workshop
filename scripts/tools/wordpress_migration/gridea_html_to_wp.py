@@ -23,7 +23,7 @@ from dataclasses import dataclass, field
 
 import requests
 from bs4 import BeautifulSoup, Tag
-import html2text
+import html2text  # pyright: ignore[reportMissingImports]
 
 # Configure logging
 logging.basicConfig(
