@@ -14,6 +14,7 @@ paths:
   drafts: "_drafts"
   posts: "_posts"
   images: "assets/images/posts"
+  brand: "assets/images/brand"       # 品牌资源 (logo, 赞赏码等)
   output: "_output"
   archive: "_drafts/archived"
   logs: "logs/pipeline.log"
