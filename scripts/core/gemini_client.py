@@ -33,7 +33,7 @@ class GeminiClient:
             cls._instance = super().__new__(cls)
         return cls._instance
 
-    def __init__(self, api_key: Optional[str] = None, model_name: str = "gemini-2.0-flash"):
+    def __init__(self, api_key: Optional[str] = None, model_name: str = "gemini-2.5-flash"):
         """
         初始化 Gemini 客户端
 
