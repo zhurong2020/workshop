@@ -39,19 +39,21 @@
 | 简短标签 | 括号内1-2个单词说明用途 | `Workshop (Blog)` |
 | 可选省略 | 名称自解释时可不加括号 | `docuforge` |
 
-### 2.2 建议的 Workspace 文件夹配置
+### 2.2 当前 Workspace 文件夹配置
+
+显示名称格式: `显示名 (GitHub仓库名)`
 
 ```json
 {
   "folders": [
-    { "name": "workshop", "path": "./workshop" },
-    { "name": "gridea-archive", "path": "./zhurong2020.github.io" },
-    { "name": "vps-server", "path": "./vpsserver" },
-    { "name": "bizassist", "path": "./bizassist" },
-    { "name": "smartnews-lite", "path": "./smartnews-lite" },
-    { "name": "docuforge", "path": "./docuforge" },
-    { "name": "home-manager", "path": "./home" },
-    { "name": "moomoo-strategies", "path": "./moomoo_custom_strategies" }
+    { "name": "workshop (workshop)", "path": "./workshop" },
+    { "name": "gridea-archive (zhurong2020.github.io)", "path": "./zhurong2020.github.io" },
+    { "name": "vps-server (vpsserver)", "path": "./vpsserver" },
+    { "name": "bizassist (bizassist)", "path": "./bizassist" },
+    { "name": "smartnews-lite (smartnews-lite)", "path": "./smartnews-lite" },
+    { "name": "docuforge (docuforge)", "path": "./docuforge" },
+    { "name": "home-manager (home)", "path": "./home" },
+    { "name": "moomoo-strategies (moomoo_custom_strategies)", "path": "./moomoo_custom_strategies" }
   ]
 }
 ```
@@ -134,15 +136,36 @@ Co-Authored-By: Claude Opus 4.5 <noreply@anthropic.com>
 
 ```
 /home/wuxia/projects/
-├── ARONG_UNIFIED_CLAUDE.md    # Workspace 级别约定 (跨项目通用)
+├── ARONG_UNIFIED_CLAUDE.md       # Workspace 级别约定 (跨项目通用)
+├── arong-unified.code-workspace  # VS Code Workspace 配置
+├── WORKSPACE_CLAUDE.md           # Workspace 通用说明
 ├── workshop/
-│   └── CLAUDE.md              # 项目级别约定
+│   └── CLAUDE.md                 # 项目级别约定
 ├── docuforge/
-│   └── CLAUDE.md              # 项目级别约定
+│   └── CLAUDE.md                 # 项目级别约定
 └── ...
 ```
 
-### 6.2 内容规范
+### 6.2 Workspace 级别配置文件 (重要)
+
+以下文件位于 `/home/wuxia/projects/` 目录，**不在任何 git 仓库中**，仅本地管理：
+
+| 文件 | 用途 | 更新日期 |
+|------|------|----------|
+| `ARONG_UNIFIED_CLAUDE.md` | Workspace 开发约定，含 GitHub 仓库对应表 | 2026-01-22 |
+| `arong-unified.code-workspace` | VS Code Workspace 配置 (项目列表、任务、调试) | 2026-01-22 |
+| `WORKSPACE_CLAUDE.md` | Workspace 通用说明文档 | 2026-01-10 |
+| `cardiac-research.code-workspace` | Cardiac 研究专用 Workspace | 2026-01-09 |
+| `CARDIAC_*.md` | Cardiac 项目相关文档 (3个) | 2025-10-19 |
+
+**查看这些文件**:
+```bash
+ls -la /home/wuxia/projects/*.md /home/wuxia/projects/*.code-workspace
+```
+
+**为什么不纳入 git**: 这些是个人开发环境配置，包含本地路径信息，不适合跨机器共享。
+
+### 6.3 内容规范
 
 | 层级 | 内容 |
 |------|------|
@@ -166,6 +189,8 @@ Co-Authored-By: Claude Opus 4.5 <noreply@anthropic.com>
 ### Phase 1: 低风险调整 (立即)
 - [x] 更新 workspace 文件夹显示名称 (不影响实际路径)
 - [x] 新建文件遵循命名规范
+- [x] 显示名称添加 GitHub 仓库名，如 `moomoo-strategies (moomoo_custom_strategies)` (2026-01-22)
+- [x] 统一所有项目 git remote 为 SSH 协议 (2026-01-22)
 
 ### Phase 2: 渐进式重命名 (按需)
 - [ ] `moomoo_custom_strategies` → `moomoo-strategies`
@@ -182,4 +207,5 @@ Co-Authored-By: Claude Opus 4.5 <noreply@anthropic.com>
 
 | 日期 | 变更 |
 |------|------|
+| 2026-01-22 | 添加 Workspace 级别配置文件说明 (6.2节) |
 | 2026-01-19 | 初始版本，定义命名规范 |
