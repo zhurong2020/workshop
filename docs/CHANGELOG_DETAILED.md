@@ -2,6 +2,46 @@
 
 本文档记录项目的详细更新历史，包括已完成的功能实现和重要技术决策。
 
+## 2026-01-22: Workspace 配置优化 & Gemini 2.5 迁移
+
+### 🎯 目标
+
+1. 完善 Workspace 配置管理和 GitHub 仓库对应关系
+2. 响应 Google 通知，迁移 Gemini 2.0 模型到 2.5 版本
+
+### 📋 Workspace 配置优化
+
+**VS Code 显示名称更新**:
+- 项目显示名称添加 GitHub 仓库名后缀
+- 格式: `显示名 (仓库名)`，如 `moomoo-strategies (moomoo_custom_strategies)`
+
+**Git 协议统一**:
+- 所有 8 个项目统一使用 SSH 协议 (`git@github.com:zhurong2020/xxx.git`)
+
+**文档更新**:
+
+| 文件 | 变更 |
+|------|------|
+| `ARONG_UNIFIED_CLAUDE.md` | 添加 GitHub 仓库对应表 |
+| `arong-unified.code-workspace` | 显示名称添加仓库名后缀 |
+| `docs/WORKSPACE_NAMING_CONVENTION.md` | 添加 Workspace 级别配置文件说明 (6.2节) |
+
+### 🔄 Gemini 2.0 → 2.5 迁移
+
+**背景**: Google 通知 Gemini 2.0 Flash/Flash Lite 将于 **2026-03-31** 停用
+
+**受影响项目及修复**:
+
+| 项目 | 文件 | 变更 |
+|------|------|------|
+| workshop | `scripts/core/gemini_client.py` | 默认模型改为 `gemini-2.5-flash` |
+| workshop | `tests/test_gemini.py` | 移除 gemini-2.0 模型优先级 |
+| bizassist | `src/services/ai/ai.service.ts` | 默认模型改为 `gemini-2.5-flash` |
+| bizassist | `README.md` | 更新配置示例 |
+| bizassist | `.env.example` | 更新配置注释 |
+
+---
+
 ## 2026-01-19: Workspace 命名规范统一
 
 ### 🎯 目标
