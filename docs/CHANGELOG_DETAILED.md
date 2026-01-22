@@ -40,6 +40,32 @@
 | bizassist | `README.md` | 更新配置示例 |
 | bizassist | `.env.example` | 更新配置注释 |
 
+### 📺 SmartNews 视频动态化
+
+**问题**: 视频列表硬编码在 index.html，需手动更新
+
+**解决方案**:
+
+| 组件 | 实现 |
+|------|------|
+| 后端 API | `vpsserver/wordpress/mu-plugins/smartnews-videos-api.php` v2.0 |
+| 数据存储 | WordPress `wp_options` (smartnews_videos) |
+| 前端 | `fetchVideosFromAPI()` + localStorage 缓存 (30分钟) |
+| 迁移 | 29 个视频从硬编码迁移到数据库 |
+
+**API 端点**:
+- `GET /smartnews/v1/videos` - 获取视频列表
+- `POST /admin-portal/v1/videos` - 添加视频
+- `POST /admin-portal/v1/videos/batch` - 批量添加
+- `PUT/DELETE /admin-portal/v1/videos/:id` - 更新/删除
+
+### 🔧 SmartNews 复制链接修复
+
+修复"复制链接"按钮在移动端（特别是 iOS Safari）不响应的问题:
+- 优先使用 `execCommand('copy')` 降级方案
+- 添加 iOS Safari 特殊处理
+- 改进错误提示
+
 ---
 
 ## 2026-01-19: Workspace 命名规范统一
