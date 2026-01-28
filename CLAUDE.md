@@ -314,7 +314,29 @@
 
 ---
 
+### 配置管理与环境迁移工具（2026-01-28新增）
+
+**工具套件**：
+- `scripts/tools/validate_config.py` - **配置验证工具**：检查环境配置完整性，验证所有必需的API密钥、配置文件、系统配置和工具链
+- `scripts/tools/config_standardization.py` - **配置标准化检查**：发现配置问题，提供最佳实践建议
+- `scripts/tools/prepare_migration.sh` - **一键迁移准备**：自动打包所有敏感配置和系统设置，生成完整迁移包
+
+**快速使用**：
+```bash
+# 验证当前环境配置
+python scripts/tools/validate_config.py
+
+# 检查配置标准化问题
+python scripts/tools/config_standardization.py
+
+# 生成迁移包（准备迁移到新机器时）
+bash scripts/tools/prepare_migration.sh
+```
+
 **相关文档**:
+- **`docs/MIGRATION_GUIDE.md`** - 🚀 完整的环境迁移指南（必读）
+- **`docs/QUICK_MIGRATION_REFERENCE.md`** - ⚡ 快速迁移速查表（一页纸）
+- **`docs/CONFIG_STANDARDIZATION_SUMMARY.md`** - 📊 配置标准化改造总结
 - `docs/TECHNICAL_ARCHITECTURE.md` - 详细技术架构说明
 - `docs/API_KEYS_REGISTRY.md` - API密钥注册表和配额管理
 - `docs/CHANGELOG_DETAILED.md` - 完整更新历史
