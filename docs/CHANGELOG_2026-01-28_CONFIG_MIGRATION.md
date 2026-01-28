@@ -566,6 +566,7 @@ bash scripts/tools/prepare_migration.sh
 3. `docs/CONFIG_STANDARDIZATION_SUMMARY.md` - 配置标准化总结
 4. `README_MIGRATION.md` - 迁移总览
 5. `docs/CHANGELOG_2026-01-28_CONFIG_MIGRATION.md` - 本文档
+6. `docs/GIT_COMMITS_SUMMARY_2026-01-28.md` - Git提交总结
 
 ### 新增工具
 1. `scripts/tools/validate_config.py` - 配置验证

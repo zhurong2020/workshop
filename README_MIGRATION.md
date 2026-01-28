@@ -14,7 +14,7 @@
 | **标准化检查** | 发现配置问题，提供改进建议 | `python scripts/tools/config_standardization.py` |
 | **迁移准备脚本** | 一键打包所有配置（生成6个文件） | `bash scripts/tools/prepare_migration.sh` |
 
-### 📚 新增文档（4个）
+### 📚 新增文档（6个）
 
 | 文档 | 内容 | 路径 |
 |------|------|------|
@@ -22,6 +22,8 @@
 | **快速参考** | 一页纸速查表（打印版友好） | `docs/QUICK_MIGRATION_REFERENCE.md` |
 | **改造总结** | 配置标准化详细分析 | `docs/CONFIG_STANDARDIZATION_SUMMARY.md` |
 | **本文档** | 改造成果快速总览 | `README_MIGRATION.md` |
+| **修订记录** | 完整的修订历史（606行） | `docs/CHANGELOG_2026-01-28_CONFIG_MIGRATION.md` |
+| **提交总结** | Git提交详细说明 | `docs/GIT_COMMITS_SUMMARY_2026-01-28.md` |
 
 ### 🎯 配置验证结果
 
