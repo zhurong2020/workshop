@@ -20,11 +20,26 @@
     "compress_large_images": true,
     "compression_quality": 85,
     "create_thumbnails": false,
-    "backup_originals": false,
-    "convert_to_webp": false
+    "backup_originals": true,
+    "convert_to_webp": false,
+    "delete_local_after_upload": false,
+    "backup_before_delete": true,
+    "manual_delete_confirmation": true,
+    "temp_storage_dir": "temp/image_processing"
+  },
+  "image_processing": {
+    "temp_retention_days": 7,
+    "auto_cleanup_after_publish": false,
+    "backup_original_files": true,
+    "processing_directory": "assets/images/processing",
+    "max_file_size_mb": 10,
+    "enable_mixed_workflow": true,
+    "search_common_temp_dirs": true,
+    "max_search_depth": 3
   },
   "links": {
-    "type": "embed",
+    "type": "view",
+    "scope": "anonymous", 
     "width": 800,
     "height": null,
     "quality": "auto"

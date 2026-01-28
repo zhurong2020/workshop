@@ -54,6 +54,9 @@ coverage.xml
 config/youtube_oauth_credentials.json
 config/youtube_oauth_token.json
 
+# OneDrive配置（真实配置包含凭据，使用示例文件）
+config/onedrive_config.json
+
 # 视频文件（临时下载，不应进入版本控制）
 youtube_videos/
 *.mp4
