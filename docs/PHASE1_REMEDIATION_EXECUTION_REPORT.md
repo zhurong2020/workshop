@@ -86,7 +86,7 @@
 
 ## ✅ 任务2：批量创建.env.example（17个项目）
 
-### 成功推送（13项）✅
+### 成功推送（14项）✅
 
 #### 第一批（4/5成功）
 
@@ -146,9 +146,14 @@
     - Commit: eb3ab50
     - Status: 成功推送
 
-13. ⚠️ **cnnvideo-timer**
-    - Commit: 2c15455
-    - Status: 本地已提交，但与远程有重大冲突
+13. ✅ **cnnvideo-timer**
+    - Commit: c0583bf
+    - Status: 成功推送
+    - 说明: 项目已演进为smartnews-lite，作为历史版本保留
+
+13. ✅ **cnnvideo-timer**
+    - Commit: 2c15455 → c0583bf
+    - Status: 已成功推送（注：项目已演进为smartnews-lite）
 
 14. ✅ **digital-lipid-management**
     - Commit: e2d1416
@@ -168,7 +173,7 @@
 
 ---
 
-### 需要手动处理（4项）⚠️
+### 需要手动处理（2项）⚠️
 
 #### 1. paper-writing-toolkit-source
 
@@ -199,30 +204,7 @@
 
 ---
 
-#### 3. cnnvideo-timer
-
-- **问题**: 本地与远程有重大冲突
-- **冲突文件**:
-  - .gitignore
-  - README.md
-  - legacy/config_loader.py
-  - legacy/downloader_checker.py
-  - legacy/metadata_manager.py
-  - requirements.txt
-  - src/baidu_cloud_uploader.py（修改/删除冲突）
-- **本地commit**: 2c15455
-- **解决方案**:
-  - 需要手动解决冲突
-  - 建议步骤:
-    1. 检查远程commits了解变更原因
-    2. 决定保留本地或远程的更改
-    3. 手动解决冲突文件
-    4. 提交合并
-    5. 推送到远程
-
----
-
-#### 4. test-colab-cli
+#### 2. test-colab-cli
 
 - **问题**: 无远程仓库
 - **本地commit**:
