@@ -1,7 +1,7 @@
 # Workshop 项目待办清单
 
-**最后更新**: 2026-01-11
-**项目状态**: 维护模式（内容创作已迁移至 WordPress）
+**最后更新**: 2026-01-28
+**项目状态**: 维护模式（内容创作已迁移至 WordPress）+ 项目规范化整改中
 **负责人**: zhurong
 
 ---
@@ -15,6 +15,25 @@
 ---
 
 ## 待办事项
+
+### P0 - 项目规范化整改（进行中）
+
+- [x] **第一阶段：快速胜利** ✅ 已完成（2026-01-28）
+  - [x] 批量添加LICENSE（10个项目）
+  - [x] 批量创建.env.example（17个项目）
+  - [x] 处理git遗留问题
+  - 成效：LICENSE覆盖率100%，.env.example覆盖率100%
+  - 详见：`docs/PHASE1_FINAL_STATUS_REPORT.md`
+
+- [ ] **第二阶段：关键改进**（待开始，8-12小时）
+  - 描述：为关键项目添加CI/CD和测试框架
+  - 优先级：smartnews-lite（最高） > Tier 1核心研究 > 其他Tier 2
+  - 预期：CI/CD覆盖率60%，测试框架65%，平均评分80+
+  - 详见：`docs/PHASE2_TASKS_TODO.md`
+
+- [ ] **第三阶段：批量完善**（待开始，5-8小时）
+  - 描述：批量添加CONTRIBUTING.md，优化文档结构
+  - 详见：`docs/GLOBAL_PROJECTS_SUMMARY_AND_REMEDIATION.md`
 
 ### P1 - 本周任务
 
@@ -80,6 +99,12 @@
 ---
 
 ## 已完成任务
+
+### 2026-01
+- [x] 21个项目配置管理评估（3批次）
+- [x] 第一阶段规范化整改（LICENSE + .env.example）
+- [x] 项目演进发现（cnnvideo-timer → smartnews-lite）
+- [x] 生成9份详细评估和整改文档
 
 ### 2025-12
 - [x] WordPress 迁移工具开发
