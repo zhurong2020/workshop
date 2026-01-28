@@ -10,6 +10,18 @@
 [![Tests](https://img.shields.io/badge/Tests-175%20passed-brightgreen)](tests/)
 [![Software Engineering](https://img.shields.io/badge/Code%20Quality-A%20Grade-brightgreen)](#)
 
+## 📖 快速导航
+
+**新手？** → [快速开始](QUICKSTART.md) | [文档地图](DOCS_MAP.md) | [故障排查](TROUBLESHOOTING.md)
+
+**需要迁移？** → [迁移总览](README_MIGRATION.md) | [快速参考](docs/QUICK_MIGRATION_REFERENCE.md) | [完整指南](docs/MIGRATION_GUIDE.md)
+
+**想要贡献？** → [贡献指南](CONTRIBUTING.md) | [开发约定](CLAUDE.md) | [安全指南](SECURITY.md)
+
+**遇到问题？** → [故障排查](TROUBLESHOOTING.md) | [配置验证](scripts/tools/validate_config.py) | [完整文档](#-完整文档)
+
+---
+
 ## ✨ 核心功能
 
 ### 💎 会员内容管理体系 (2025-08-15)
@@ -101,6 +113,17 @@ python run.py
 
 | 文档类型 | 文档 | 描述 |
 |---------|------|------|
+| **🚀 快速开始** | ⭐ [快速开始](QUICKSTART.md) | 5分钟快速上手指南 |
+| | ⭐ [文档导航](DOCS_MAP.md) | 完整文档索引地图 |
+| | ⭐ [故障排查](TROUBLESHOOTING.md) | 常见问题快速解决 |
+| | [开发者贡献指南](CONTRIBUTING.md) | 如何参与项目开发 |
+| **🔄 环境迁移** | ⭐ [迁移总览](README_MIGRATION.md) | 环境迁移准备和工具 |
+| | [快速迁移参考](docs/QUICK_MIGRATION_REFERENCE.md) | 一页纸迁移速查表 |
+| | [完整迁移指南](docs/MIGRATION_GUIDE.md) | 详细迁移步骤和故障排查 |
+| | [配置标准化总结](docs/CONFIG_STANDARDIZATION_SUMMARY.md) | 配置管理最佳实践 |
+| **🛠️ 配置管理工具** | [配置验证工具](scripts/tools/validate_config.py) | 验证27项环境配置 |
+| | [配置标准化检查](scripts/tools/config_standardization.py) | 检查配置问题和建议 |
+| | [迁移准备脚本](scripts/tools/prepare_migration.sh) | 一键生成迁移包 |
 | **🎯 项目总览** | [技术架构文档](docs/TECHNICAL_ARCHITECTURE.md) | v2.0重构后的技术架构和设计决策 |
 | | [项目结构](docs/PROJECT_STRUCTURE.md) | 重构后的详细目录结构说明 |
 | | [软件工程审计](docs/PROJECT_SOFTWARE_ENGINEERING_FINAL_AUDIT.md) | A-级别软件工程审计报告 |
@@ -122,7 +145,8 @@ python run.py
 | | [内容系列集成策略](docs/CONTENT_SERIES_INTEGRATION_STRATEGY.md) | 四大系列有机关联设计 |
 | **🏗️ 系统架构** | [系统菜单架构](docs/SYSTEM_MENU_ARCHITECTURE.md) | 菜单重构设计思路 |
 | | [音频资源管理](docs/AUDIO_RESOURCE_MANAGEMENT.md) | 音频处理和会员分发系统 |
-| **📋 功能指南** | [YouTube完整指南](docs/guides/YOUTUBE_COMPLETE_GUIDE.md) | YouTube功能使用说明 |
+| **📋 功能指南** | [WordPress发布指南](docs/WORDPRESS_PUBLISHING_GUIDE.md) | 多平台发布系统完整指南 |
+| | [YouTube完整指南](docs/guides/YOUTUBE_COMPLETE_GUIDE.md) | YouTube功能使用说明 |
 | | [用户菜单指南](docs/USER_GUIDE_NEW_MENU.md) | 重构后菜单系统使用指南 |
 | | [Azure集成路线图](docs/AZURE_INTEGRATION_ROADMAP.md) | Azure生态系统集成规划 |
 

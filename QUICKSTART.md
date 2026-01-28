@@ -171,10 +171,23 @@ https://www.arong.eu.org/youxin-admin/
 
 ## 📖 详细文档
 
+### 核心文档
 - **完整使用指南**: `docs/WORDPRESS_PUBLISHING_GUIDE.md`
+- **文档导航地图**: `DOCS_MAP.md` ⭐ (推荐收藏)
+- **故障排查指南**: `TROUBLESHOOTING.md`
 - **项目文档**: `CLAUDE.md`
+
+### 配置相关
 - **主配置文件**: `config/app.yml`
 - **环境变量**: `.env`
+- **配置验证**: `python scripts/tools/validate_config.py`
+- **配置检查**: `python scripts/tools/config_standardization.py`
+
+### 环境迁移
+- **迁移总览**: `README_MIGRATION.md`
+- **快速参考**: `docs/QUICK_MIGRATION_REFERENCE.md`
+- **完整指南**: `docs/MIGRATION_GUIDE.md`
+- **迁移准备**: `bash scripts/tools/prepare_migration.sh`
 
 ## 🎉 开始创作
 
