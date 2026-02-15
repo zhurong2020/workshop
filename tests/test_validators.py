@@ -9,7 +9,7 @@ import os
 
 # 添加项目根目录到Python路径
 import sys
-sys.path.append('/home/wuxia/projects/workshop')
+sys.path.append(str(Path(__file__).resolve().parent.parent))
 
 from scripts.core.validators import (
     ContentValidator,

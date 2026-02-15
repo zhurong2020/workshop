@@ -11,7 +11,7 @@ from typing import Dict, Any
 
 # 添加项目根目录到Python路径
 import sys
-sys.path.append('/home/wuxia/projects/workshop')
+sys.path.append(str(Path(__file__).resolve().parent.parent))
 
 from scripts.core.workflows.content_workflow import (
     WorkflowEngine,
