@@ -138,7 +138,7 @@ migration-package-YYYYMMDD-HHMMSS/
 
 ### 步骤1：验证当前环境
 ```bash
-cd ~/projects/workshop
+cd ~/projects/personal/websites/workshop
 source venv/bin/activate
 python scripts/tools/validate_config.py
 ```

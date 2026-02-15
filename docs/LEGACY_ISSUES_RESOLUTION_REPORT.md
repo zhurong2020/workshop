@@ -61,7 +61,7 @@ smartnews-lite (当前主要实现)
 
 2. **smartnews-lite**:
    - 状态: 当前活跃开发
-   - 位置: /home/wuxia/projects/workshop 子目录或独立项目
+   - 位置: /home/wuxia/projects/personal/websites/workshop 子目录或独立项目
    - 维护级别: 高
    - 已有配置: LICENSE ✅, .env.example ✅
 

@@ -245,7 +245,7 @@ git status
 #### 1. Workshop项目（10 commits）
 
 ```bash
-cd /home/wuxia/projects/workshop
+cd /home/wuxia/projects/personal/websites/workshop
 git status
 git push origin main
 ```

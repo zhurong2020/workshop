@@ -131,7 +131,7 @@
 
 ### 推送命令
 ```bash
-cd /home/wuxia/projects/workshop
+cd /home/wuxia/projects/personal/websites/workshop
 git push origin main
 ```
 
@@ -333,7 +333,7 @@ ls README.md CONTRIBUTING.md docs/
 
 ```bash
 # 1. 确认workshop项目已push
-cd /home/wuxia/projects/workshop
+cd /home/wuxia/projects/personal/websites/workshop
 git status
 
 # 2. 列出所有项目

@@ -8,7 +8,7 @@
 
 1. **安装依赖**（仅需一次）
    ```bash
-   cd /home/wuxia/projects/workshop
+   cd /home/wuxia/projects/personal/websites/workshop
    venv/bin/pip install -r requirements.txt
    ```
 
@@ -35,7 +35,7 @@ workshop
 ### 1. 创建草稿
 
 ```bash
-cd /home/wuxia/projects/workshop
+cd /home/wuxia/projects/personal/websites/workshop
 vim _drafts/my-article.md
 ```
 
@@ -151,7 +151,7 @@ source ~/.bashrc
 ### Q: 提示"ModuleNotFoundError"
 **A**: 安装依赖
 ```bash
-cd /home/wuxia/projects/workshop
+cd /home/wuxia/projects/personal/websites/workshop
 venv/bin/pip install -r requirements.txt
 ```
 

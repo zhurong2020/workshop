@@ -215,7 +215,7 @@ main() {
 在旧机器上运行以下命令验证配置完整性：
 
 ```bash
-cd ~/projects/workshop
+cd ~/projects/personal/websites/workshop
 source venv/bin/activate
 python scripts/tools/validate_config.py
 ```

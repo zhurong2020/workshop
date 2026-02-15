@@ -46,7 +46,7 @@
 ### 步骤1：验证当前环境（30秒）
 
 ```bash
-cd ~/projects/workshop
+cd ~/projects/personal/websites/workshop
 source venv/bin/activate
 python scripts/tools/validate_config.py
 ```
@@ -152,7 +152,7 @@ config/licenses/                        # License文件和激活密钥
 
 ```bash
 # 1. 配置完整性
-cd ~/projects/workshop && source venv/bin/activate
+cd ~/projects/personal/websites/workshop && source venv/bin/activate
 python scripts/tools/validate_config.py
 
 # 2. SSH连接

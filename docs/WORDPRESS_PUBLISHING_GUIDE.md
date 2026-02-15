@@ -46,7 +46,7 @@
 
 1. 在 workshop 项目根目录，复制 `.env.example` 为 `.env`：
    ```bash
-   cd /home/wuxia/projects/workshop
+   cd /home/wuxia/projects/personal/websites/workshop
    cp .env.example .env
    ```
 
@@ -71,7 +71,7 @@
 ```bash
 # 从 vpsserver 移动到 workshop
 mv /home/wuxia/projects/vpsserver/wordpress/content/blog-trilium-notes.md \
-   /home/wuxia/projects/workshop/_drafts/
+   /home/wuxia/projects/personal/websites/workshop/_drafts/
 ```
 
 ### 第三步：运行发布流程
@@ -92,11 +92,11 @@ mv /home/wuxia/projects/vpsserver/wordpress/content/blog-trilium-notes.md \
 workshop
 
 # 方式 3b: 使用启动脚本
-cd /home/wuxia/projects/workshop
+cd /home/wuxia/projects/personal/websites/workshop
 ./workshop.sh
 
 # 方式 3c: 直接使用虚拟环境
-cd /home/wuxia/projects/workshop
+cd /home/wuxia/projects/personal/websites/workshop
 venv/bin/python3 run.py
 ```
 

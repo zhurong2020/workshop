@@ -9,7 +9,7 @@
 在旧机器上运行验证工具：
 
 ```bash
-cd ~/projects/workshop
+cd ~/projects/personal/websites/workshop
 source venv/bin/activate
 python scripts/tools/validate_config.py
 ```
@@ -36,7 +36,7 @@ cd ~
 mkdir -p ~/migration-package
 
 # 1. 打包workshop项目敏感配置
-cd ~/projects/workshop
+cd ~/projects/personal/websites/workshop
 tar -czf ~/migration-package/workshop-secrets.tar.gz \
     .env \
     config/onedrive_tokens.json \
@@ -56,7 +56,7 @@ tar -czf ~/migration-package/claude-config.tar.gz \
     .claude/.credentials.json
 
 # 4. 导出Python依赖（可选，作为参考）
-source ~/projects/workshop/venv/bin/activate
+source ~/projects/personal/websites/workshop/venv/bin/activate
 pip freeze > ~/migration-package/workshop-requirements.txt
 deactivate
 
@@ -284,14 +284,14 @@ claude login
 
 ```bash
 # 添加到 ~/.bashrc
-echo "alias workshop='/home/wuxia/projects/workshop/workshop.sh'" >> ~/.bashrc
+echo "alias workshop='/home/wuxia/projects/personal/websites/workshop/workshop.sh'" >> ~/.bashrc
 source ~/.bashrc
 ```
 
 #### 4.3 OneDrive重新认证（如token过期）
 
 ```bash
-cd ~/projects/workshop
+cd ~/projects/personal/websites/workshop
 source venv/bin/activate
 python scripts/tools/onedrive_auth.py
 # 按照提示完成OAuth认证
@@ -311,7 +311,7 @@ python scripts/tools/onedrive_auth.py
 
 ### Workshop项目
 ```bash
-cd ~/projects/workshop
+cd ~/projects/personal/websites/workshop
 source venv/bin/activate
 
 # 1. 配置验证
@@ -383,7 +383,7 @@ chmod 644 ~/.ssh/id_ed25519.pub ~/.ssh/config
 
 ```bash
 # 删除并重建虚拟环境
-cd ~/projects/workshop
+cd ~/projects/personal/websites/workshop
 rm -rf venv
 python3 -m venv venv
 source venv/bin/activate
@@ -394,7 +394,7 @@ pip install -r requirements.txt
 ### OneDrive Token过期
 
 ```bash
-cd ~/projects/workshop
+cd ~/projects/personal/websites/workshop
 source venv/bin/activate
 python scripts/tools/onedrive_auth.py
 # 完成OAuth认证流程

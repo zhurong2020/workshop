@@ -905,7 +905,7 @@ find /home/wuxia/projects -maxdepth 2 -name "CONTRIBUTING.md" | wc -l
 实施:
 ```bash
 # 创建scripts目录
-mkdir -p /home/wuxia/projects/workshop/scripts/batch_ops
+mkdir -p /home/wuxia/projects/personal/websites/workshop/scripts/batch_ops
 
 # 添加批量操作脚本
 - add_licenses.sh

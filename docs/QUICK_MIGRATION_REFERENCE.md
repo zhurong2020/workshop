@@ -6,7 +6,7 @@
 
 ```bash
 # 1. 进入项目目录
-cd ~/projects/workshop
+cd ~/projects/personal/websites/workshop
 
 # 2. 验证配置完整性（可选）
 source venv/bin/activate
@@ -85,7 +85,7 @@ claude --version                           # 应显示：2.1.x
 python run.py                              # 应正常启动
 
 # 4. 完整验证
-cd ~/projects/workshop && source venv/bin/activate
+cd ~/projects/personal/websites/workshop && source venv/bin/activate
 python scripts/tools/validate_config.py    # 应显示：🎉 所有必需配置已就绪！
 ```
 
@@ -106,7 +106,7 @@ gh auth login
 
 ### Python虚拟环境问题
 ```bash
-cd ~/projects/workshop
+cd ~/projects/personal/websites/workshop
 rm -rf venv
 python3 -m venv venv
 source venv/bin/activate
@@ -116,7 +116,7 @@ pip install -r requirements.txt
 
 ### OneDrive Token过期
 ```bash
-cd ~/projects/workshop && source venv/bin/activate
+cd ~/projects/personal/websites/workshop && source venv/bin/activate
 python scripts/tools/onedrive_auth.py
 # 按提示完成OAuth认证
 ```

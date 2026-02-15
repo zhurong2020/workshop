@@ -11,7 +11,7 @@
 **遇到问题？先运行配置验证工具：**
 
 ```bash
-cd ~/projects/workshop
+cd ~/projects/personal/websites/workshop
 source venv/bin/activate
 python scripts/tools/validate_config.py
 ```
@@ -68,7 +68,7 @@ bash: workshop: 未找到命令
 source ~/.bashrc
 
 # 方案2: 使用完整路径
-cd ~/projects/workshop
+cd ~/projects/personal/websites/workshop
 ./workshop.sh
 
 # 方案3: 使用虚拟环境直接运行
@@ -147,7 +147,7 @@ ModuleNotFoundError: No module named 'yaml'
 **解决方案**:
 ```bash
 # 1. 确保使用虚拟环境
-cd ~/projects/workshop
+cd ~/projects/personal/websites/workshop
 source venv/bin/activate  # 命令行前应显示 (venv)
 
 # 2. 重新安装依赖
@@ -169,7 +169,7 @@ pip install -r requirements.txt
 ```bash
 # 检查Python路径（应该指向venv目录）
 which python
-# 应该输出: /home/wuxia/projects/workshop/venv/bin/python
+# 应该输出: /home/wuxia/projects/personal/websites/workshop/venv/bin/python
 ```
 
 ---
@@ -349,7 +349,7 @@ Error: invalid_grant
 **解决方案**:
 ```bash
 # 重新认证
-cd ~/projects/workshop
+cd ~/projects/personal/websites/workshop
 source venv/bin/activate
 python scripts/tools/onedrive_auth.py
 
@@ -509,12 +509,12 @@ PermissionError: [Errno 13] Permission denied
 ls -la <文件路径>
 
 # 2. 如果所有者不是当前用户
-sudo chown -R $(whoami):$(whoami) ~/projects/workshop
+sudo chown -R $(whoami):$(whoami) ~/projects/personal/websites/workshop
 
 # 3. 检查目录权限
-chmod 755 ~/projects/workshop
-chmod 755 ~/projects/workshop/_posts
-chmod 755 ~/projects/workshop/_drafts
+chmod 755 ~/projects/personal/websites/workshop
+chmod 755 ~/projects/personal/websites/workshop/_posts
+chmod 755 ~/projects/personal/websites/workshop/_drafts
 ```
 
 ---
@@ -612,7 +612,7 @@ ping -c 3 api.openai.com
 ### 完整的系统健康检查
 
 ```bash
-cd ~/projects/workshop
+cd ~/projects/personal/websites/workshop
 source venv/bin/activate
 
 # 1. 配置验证（推荐首先运行）

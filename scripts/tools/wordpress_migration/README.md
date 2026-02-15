@@ -44,7 +44,7 @@ mysqldump -u [user] -p [database] > ~/wp_db_backup.sql
 ### Install Dependencies
 
 ```bash
-cd /home/wuxia/projects/workshop
+cd /home/wuxia/projects/personal/websites/workshop
 source venv/bin/activate
 pip install requests python-frontmatter markdown beautifulsoup4 html2text
 ```
@@ -184,7 +184,7 @@ ssh arong-vps 'sudo rm /var/www/arong.eu.org/public_html/wp-content/mu-plugins/p
 ### Phase 1: Workshop Content (33 posts)
 
 ```bash
-cd /home/wuxia/projects/workshop
+cd /home/wuxia/projects/personal/websites/workshop
 source venv/bin/activate
 
 # 1. Dry run to verify

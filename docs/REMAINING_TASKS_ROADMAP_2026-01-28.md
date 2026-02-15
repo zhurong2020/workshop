@@ -83,7 +83,7 @@ git log --all --full-history -- "archive/old_tools/cardiac_calcium_scoring_20251
 
 ```bash
 # 1. Workshop项目（10个commits）
-cd /home/wuxia/projects/workshop
+cd /home/wuxia/projects/personal/websites/workshop
 git push origin main
 
 # 2. cardiac-ai-cac（1个commit）
@@ -216,7 +216,7 @@ done
 
 ---
 
-### 4. arong-unified其他项目深度评估
+### 4. 其他项目深度评估
 
 **任务**: 对21个项目进行完整的最佳实践评估（P1-P3问题）
 
